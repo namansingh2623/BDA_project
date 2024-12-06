@@ -20,5 +20,3 @@ def load_table_to_dataframe(file_path, sheet_name, header_row, num_rows):
     except Exception as e:
         print(f"Error while loading the table: {e}")
         return None
-    
-
