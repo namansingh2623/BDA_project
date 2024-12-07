@@ -9,11 +9,8 @@ import seaborn as sns
 import plotly.tools as tls 
 
 import dataprocessing as dp
-file_path = "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-file_path2 = "BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-file_path3 = "BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
-dataframes = dp.process_and_clean_data(file_path, file_path2, file_path3)
+dataframes = dp.process_and_clean_data()
 
 # Access a specific DataFrame
 education_53_2333 = dataframes["education_53_2333"]
@@ -30,37 +27,35 @@ print(education_53_2333)
 
 import plotly.express as px
 
-def generate_correlation_heatmap(dataframe, title='Feature Correlation Matrix'):
+def generate_correlation_heatmap(dataframes,  title='Feature Correlation Matrix', figsize=(8, 6), cmap='coolwarm'):
     """
-    Generate a heatmap for the correlation matrix of specified numerical columns using Plotly Express.
+    Generate a heatmap for the correlation matrix of specified numerical columns.
 
     Parameters:
     dataframe (pd.DataFrame): The DataFrame containing the data.
+    numerical_columns (list): List of numerical column names to compute the correlation matrix.
     title (str): Title of the heatmap. Default is 'Feature Correlation Matrix'.
+    figsize (tuple): Size of the figure. Default is (8, 6).
+    cmap (str): Colormap for the heatmap. Default is 'coolwarm'.
 
     Returns:
-    plotly.graph_objects.Figure: The Plotly figure object containing the heatmap.
+    matplotlib.figure.Figure: The figure object containing the heatmap.
     """
+    dataframe = dataframes['education_53_1929']
     numerical_columns = [
-        "High school diploma or equivalent", 
-        "Some college, no degree", 
-        "Associate's degree",
-        "Bachelor's degree", 
-        "Master's degree", 
-        "Doctoral or professional degree"
+    "High school diploma or equivalent", 
+    "Some college, no degree", 
+    "Associate's degree",
+    "Bachelor's degree", 
+    "Master's degree", 
+    "Doctoral or professional degree"
     ]
     correlation_matrix = dataframe[numerical_columns].corr()
-    
-    # Create the heatmap using Plotly Express
-    fig = px.imshow(
-        correlation_matrix,
-        labels=dict(x="Features", y="Features", color="Correlation"),
-        x=correlation_matrix.columns,
-        y=correlation_matrix.columns,
-        title=title,
-        color_continuous_scale='coolwarm',
-        text_auto=True
-    )
+
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.heatmap(correlation_matrix, annot=True, cmap=cmap, fmt=".2f", cbar=True, square=True, ax=ax)
+    ax.set_title(title)
+
     return fig
 # Data for 2023
 def employment_dist_by_education_level(dataframes):

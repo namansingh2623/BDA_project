@@ -12,9 +12,10 @@ def process_and_clean_data():
     Returns:
         dict: A dictionary containing cleaned DataFrames.
     """
-    file_path = "Datasets/2019-29/education.xlsx"
-    file_path2 = "Datasets/2023-33/education.xlsx"
-    file_path3 = "Datasets/2019-29/occupation.xlsx"
+    "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path = "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path2 = "BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    file_path3 = "BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
     
     print("FIle Paths==>",file_path, file_path2, file_path3)
@@ -60,9 +61,9 @@ def process_and_clean_data():
         '2023 National Employment Matrix title'
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
-
-    national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
-    national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
+    "BDA_project/project_data/project_data/"
+    national_M2019_dl = pd.read_excel("BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
     
 
 
