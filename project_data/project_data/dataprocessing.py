@@ -1,6 +1,6 @@
 import pandas as pd
 
-def process_and_clean_data(file_path, file_path2, file_path3):
+def process_and_clean_data():
     """
     Loads, processes, and cleans multiple DataFrames based on the provided logic.
 
@@ -12,6 +12,11 @@ def process_and_clean_data(file_path, file_path2, file_path3):
     Returns:
         dict: A dictionary containing cleaned DataFrames.
     """
+    file_path = "Datasets/2019-29/education.xlsx"
+    file_path2 = "Datasets/2023-33/education.xlsx"
+    file_path3 = "Datasets/2019-29/occupation.xlsx"
+
+    
     print("FIle Paths==>",file_path, file_path2, file_path3)
     def load_table_to_dataframe(file_path, sheet_name, header_row, num_rows):
         try:
