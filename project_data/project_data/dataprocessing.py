@@ -55,6 +55,12 @@ def process_and_clean_data(file_path, file_path2, file_path3):
         '2023 National Employment Matrix title'
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
+
+    national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
+    
+
+
     # Return all DataFrames in a dictionary
     return {
         "education_52_1929": education_52_1929,
@@ -64,6 +70,9 @@ def process_and_clean_data(file_path, file_path2, file_path3):
         "education_52_2333": education_52_2333,
         "education_53_2333": education_53_2333,
         "education_54_2333": education_54_2333,
-        "occupation_11_1929": occupation_11_1929
+        "occupation_11_1929": occupation_11_1929,
+        "oesm_national_M2019_dl_19":national_M2019_dl,
+        "oesm_national_M2023_dl_23":national_M2023_dl
+
     }
 
