@@ -12,12 +12,37 @@ def process_and_clean_data():
     Returns:
         dict: A dictionary containing cleaned DataFrames.
     """
-    "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path = "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path2 = "BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-    file_path3 = "BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
+
+    #Naman Paths
+    "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+
+    # Malavs Paths
+    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+
+    # LISA PATHS: 
+    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
     
+
+    # DAN PATHS
+    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+
+
+
+    #DYLAN PATH:
+    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
     print("FIle Paths==>",file_path, file_path2, file_path3)
     def load_table_to_dataframe(file_path, sheet_name, header_row, num_rows):
         try:
@@ -62,8 +87,8 @@ def process_and_clean_data():
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
     "BDA_project/project_data/project_data/"
-    national_M2019_dl = pd.read_excel("BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
-    national_M2023_dl = pd.read_excel("BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
+    national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
     
 
 
@@ -78,7 +103,8 @@ def process_and_clean_data():
         "education_54_2333": education_54_2333,
         "occupation_11_1929": occupation_11_1929,
         "oesm_national_M2019_dl_19":national_M2019_dl,
-        "oesm_national_M2023_dl_23":national_M2023_dl
+        "oesm_national_M2023_dl_23":national_M2023_dl,
+        
 
     }
 
