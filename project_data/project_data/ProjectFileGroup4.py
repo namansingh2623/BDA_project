@@ -27,69 +27,111 @@ print(education_53_2333)
 
 import plotly.express as px
 
-def generate_correlation_heatmap(dataframes,  title='Feature Correlation Matrix', figsize=(8, 6), cmap='coolwarm'):
+def generate_correlation_heatmap(dataframes, title='Feature Correlation Matrix'):
     """
-    Generate a heatmap for the correlation matrix of specified numerical columns.
-
-    Parameters:
-    dataframe (pd.DataFrame): The DataFrame containing the data.
-    numerical_columns (list): List of numerical column names to compute the correlation matrix.
-    title (str): Title of the heatmap. Default is 'Feature Correlation Matrix'.
-    figsize (tuple): Size of the figure. Default is (8, 6).
-    cmap (str): Colormap for the heatmap. Default is 'coolwarm'.
-
-    Returns:
-    matplotlib.figure.Figure: The figure object containing the heatmap.
+    Generate a heatmap for the correlation matrix of specified numerical columns using Plotly.
     """
-    dataframe = dataframes['education_53_1929']
     numerical_columns = [
-    "High school diploma or equivalent", 
-    "Some college, no degree", 
-    "Associate's degree",
-    "Bachelor's degree", 
-    "Master's degree", 
-    "Doctoral or professional degree"
+        "High school diploma or equivalent",
+        "Some college, no degree",
+        "Associate's degree",
+        "Bachelor's degree",
+        "Master's degree",
+        "Doctoral or professional degree",
     ]
+    dataframe = dataframes['education_53_1929']
     correlation_matrix = dataframe[numerical_columns].corr()
 
-    fig, ax = plt.subplots(figsize=figsize)
-    sns.heatmap(correlation_matrix, annot=True, cmap=cmap, fmt=".2f", cbar=True, square=True, ax=ax)
-    ax.set_title(title)
-
+    fig = px.imshow(
+        correlation_matrix,
+        text_auto=".2f",
+        color_continuous_scale="ylgnbu",
+        title=title,
+    )
     return fig
+
 # Data for 2023
+# def employment_dist_by_education_level(dataframes):
+#     labels_2023 = dataframes['education_52_2333']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
+#     values_2023 = dataframes['education_52_2333']['Employment distribution, percent, 2023'][1:]
+
+#     # Data for 2019
+#     labels_2019 = dataframes['education_52_1929']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
+#     values_2019 = dataframes['education_52_1929']['Employment distribution, percent, 2019'][1:]
+
+#     # Ensure labels match for comparison
+#     # assert list(labels_2023) == list(labels_2019), "Labels for 2019 and 2023 do not match!"
+
+#     # Create positions for the bars
+#     x = np.arange(len(labels_2023))  # Positions for groups
+#     width = 0.35  # Width of each bar
+
+#     # Plot the grouped bar chart
+#     plt.figure(figsize=(14, 7))
+#     plt.bar(x - width/2, values_2023, width, label='2023', color='skyblue', edgecolor='black')
+#     plt.bar(x + width/2, values_2019, width, label='2019', color='lightcoral', edgecolor='black')
+
+#     # Add labels, title, and legend
+#     plt.title('Employment Distribution by Education Level: 2019 vs 2023', fontsize=16)
+#     plt.xlabel('Education Level', fontsize=14)
+#     plt.ylabel('Employment Distribution (%)', fontsize=14)
+#     plt.xticks(x, labels_2023, rotation=45, ha='right', fontsize=12)
+#     plt.legend(title="Year", fontsize=12)
+#     plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+#     # Adjust layout and show the plot
+#     plt.tight_layout()
+#     plt.show()
+import plotly.graph_objects as go
+import numpy as np
+
 def employment_dist_by_education_level(dataframes):
-    labels_2023 = dataframes['education_52_2333']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
-    values_2023 = dataframes['education_52_2333']['Employment distribution, percent, 2023'][1:]
+    """
+    Generate a grouped bar chart comparing employment distribution by education level for 2019 and 2023 using Plotly.
+    """
+    # Data for 2023
+    labels_2023 = dataframes['education_52_2333']['Typical entry-level education']
+    values_2023 = dataframes['education_52_2333']['Employment distribution, percent, 2023']
 
     # Data for 2019
-    labels_2019 = dataframes['education_52_1929']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
-    values_2019 = dataframes['education_52_1929']['Employment distribution, percent, 2019'][1:]
+    labels_2019 = dataframes['education_52_1929']['Typical entry-level education']
+    values_2019 = dataframes['education_52_1929']['Employment distribution, percent, 2019']
 
-    # Ensure labels match for comparison
-    # assert list(labels_2023) == list(labels_2019), "Labels for 2019 and 2023 do not match!"
+    # Create the grouped bar chart using Plotly
+    fig = go.Figure()
 
-    # Create positions for the bars
-    x = np.arange(len(labels_2023))  # Positions for groups
-    width = 0.35  # Width of each bar
+    # Add bars for 2023
+    fig.add_trace(
+        go.Bar(
+            x=labels_2023,
+            y=values_2023,
+            name='2023',
+            marker=dict(color='skyblue', line=dict(color='black', width=1)),
+        )
+    )
 
-    # Plot the grouped bar chart
-    plt.figure(figsize=(14, 7))
-    plt.bar(x - width/2, values_2023, width, label='2023', color='skyblue', edgecolor='black')
-    plt.bar(x + width/2, values_2019, width, label='2019', color='lightcoral', edgecolor='black')
+    # Add bars for 2019
+    fig.add_trace(
+        go.Bar(
+            x=labels_2019,
+            y=values_2019,
+            name='2019',
+            marker=dict(color='lightcoral', line=dict(color='black', width=1)),
+        )
+    )
 
-    # Add labels, title, and legend
-    plt.title('Employment Distribution by Education Level: 2019 vs 2023', fontsize=16)
-    plt.xlabel('Education Level', fontsize=14)
-    plt.ylabel('Employment Distribution (%)', fontsize=14)
-    plt.xticks(x, labels_2023, rotation=45, ha='right', fontsize=12)
-    plt.legend(title="Year", fontsize=12)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    # Update layout for the chart
+    fig.update_layout(
+        title='Employment Distribution by Education Level: 2019 vs 2023',
+        xaxis_title='Education Level',
+        yaxis_title='Employment Distribution (%)',
+        barmode='group',
+        xaxis=dict(tickangle=45),
+        legend_title='Year',
+        template='plotly_white',
+    )
 
-    # Adjust layout and show the plot
-    plt.tight_layout()
-    plt.show()
-
+    return fig
 
 
 def emp_pred_chang_by_education_1929_2333(dataframes):
@@ -159,3 +201,5 @@ def median_wage_change(dataframes):
     # Show the plot
     plt.tight_layout()
     plt.show()
+
+
