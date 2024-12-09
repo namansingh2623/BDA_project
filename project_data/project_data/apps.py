@@ -179,8 +179,6 @@ app.layout = html.Div([
         style={'margin-top': '30px'}
     )
 ]),
-    
-    
     html.Div([
         dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
