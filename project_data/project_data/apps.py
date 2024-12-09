@@ -1,111 +1,188 @@
-from dash import Dash, html, dcc, callback, Output, Input
-
-import pandas as pd
-import plotly.io as pio
-import matplotlib.pyplot as plt
-#import nbimporter
-import sys
+from dash import Dash, html, dcc
+import dash_bootstrap_components as dbc
 import dataprocessing as dp
-
 import ProjectFileGroup4 as pf
+import plotly.graph_objects as go
 
+# Function to generate placeholder graph
+def placeholder_graph(message="Graph not found"):
+    return go.Figure().add_annotation(
+        text=message,
+        xref="paper", yref="paper",
+        x=0.5, y=0.5, showarrow=False,
+        font=dict(size=20, color="red")
+    )
 
-dataframes = dp.process_and_clean_data()
+# Process and clean data
+try:
+    dataframes = dp.process_and_clean_data()
+except Exception as e:
+    dataframes = None
+    print(f"Error processing data: {e}")
+
+# Generate graphs with error handling
+try:
+    correlation_heatmap = pf.generate_correlation_heatmap(dataframes)
+except Exception as e:
+    correlation_heatmap = placeholder_graph("Correlation Heatmap Not Found")
+    print(f"Error generating correlation heatmap: {e}")
+
+try:
+    employment_dist = pf.employment_dist_by_education_level(dataframes)
+except Exception as e:
+    employment_dist = placeholder_graph("Employment Distribution Not Found")
+    print(f"Error generating employment distribution: {e}")
+
+try:
+    emp_pred_change = pf.emp_pred_chang_by_education_1929_2333(dataframes)
+except Exception as e:
+    emp_pred_change = placeholder_graph("Employment Prediction Change Not Found")
+    print(f"Error generating employment prediction change: {e}")
+
+try:
+    skill_importance = pf.skill_importance_high_vs_low(dataframes)
+except Exception as e:
+    skill_importance = placeholder_graph("Skill Importance Graph Not Found")
+    print(f"Error generating skill importance graph: {e}")
+
+try:
+    fastest_growing_occupations_fig = pf.compare_fastest_growing_occupations(dataframes)
+except Exception as e:
+    fastest_growing_occupations_fig = placeholder_graph("Fastest Growing Occupations Graph Not Found")
+    print(f"Error generating fastest growing occupations graph: {e}")
+
+try:
+    max_predicted_decline_occupations_fig = pf.show_max_decline_bar_chart_occupation_15_16_2333(dataframes)
+except Exception as e:
+    fastest_growing_occupations_fig = placeholder_graph("Fastest Growing Occupations Graph Not Found")
+    print(f"Error generating fastest growing occupations graph: {e}")
+
+try:
+    min_predicted_decline_occupations_fig = pf.show_min_decline_bar_chart_occupation_15_16_2333(dataframes)
+except Exception as e:
+    fastest_growing_occupations_fig = placeholder_graph("Fastest Growing Occupations Graph Not Found")
+    print(f"Error generating fastest growing occupations graph: {e}")
+
+# Intro and markdown texts
+intro_md = '''
+# Employment and Career Insights Project
+
+This project analyzes job market trends before and after the pandemic, offering insights into education requirements, skill importance, and professions projected to grow or decline. The aim is to help students make informed career decisions by understanding industry demands.
+
+### Key Objectives:
+- Analyze job market trends between 2019 and 2023.
+- Identify the fastest and slowest growing occupations.
+- Understand the skills required for high-wage and low-wage jobs.
+- Compare employment distribution by education level.
+'''
+
+graph1_md = '''
+# Employment Distribution by Education Level (2019 vs 2023)
+
+### Insights:
+1. **High school diploma or equivalent** has the highest employment distribution.
+2. Specialized degrees (Bachelor's, Master's) are critical for high-paying roles.
+3. Stability in education-level employment distribution between 2019 and 2023.
+'''
+
+graph2_md = '''
+# Skill Importance in High-Wage vs Low-Wage Jobs
+
+### Insights:
+- High-wage jobs prioritize **STEM skills** and **critical thinking**.
+- Low-wage jobs focus on **customer service** and **manual skills**.
+- Core skills like adaptability and problem-solving are essential for all jobs.
+'''
+
 
 app = Dash()
-intro_md = '''
-- In this project we tend to analyise what kind of profession is required for the students in the future. 
-- As per a research, there are people who do not have a clear perspective of what they want to do in the future and what is their carrer path. 
-- We plan to analyse the data from the job market before and post pandemic and to help students get a better understand of what kind of proffesion they can pursue and what skill are required for them excel in that profession.
-
-
-For instance as per these research, 
-# Career Aspirations of Students Aged 18 or Below
-
-Understanding how many young individuals know what they want to do when they grow up varies across surveys and studies. Here are some key findings:
-
-## Key Statistics
-
-- **Junior Achievement and EY Survey (2017)**:  
-  This survey of 1,000 teenagers aged 13 to 17 found that **91% believed they knew the career they wanted to pursue**.  
-  [Source: Payscale](https://www.payscale.com/career-advice/teenager-career-choice-91-percent-teens-think-know-career-want/?utm_source=chatgpt.com)
-
-- **ECMC Group Study (2022)**:  
-  In a study involving high school students:
-  - **75% reported having a specific career in mind.**
-  - **74% felt it was important to have their career plans determined by the time they graduated high school.**  
-  [Source: The Journal](https://thejournal.com/articles/2022/05/19/national-study-high-schoolers-eyeing-career-and-workforce-landscape-when-deciding-their-futures.aspx?utm_source=chatgpt.com)
-
-- **OECD PISA 2022 Findings**:  
-  The Programme for International Student Assessment (PISA) 2022 reported:
-  - **Two in five 15-year-old students across OECD countries lacked clear career plans.**  
-  [Source: OECD iLibrary](https://www.oecd-ilibrary.org/education/teenage-career-uncertainty_e89c3da9-en?utm_source=chatgpt.com)
-
-## Summary
-While a significant majority of teenagers express confidence in their career aspirations, a substantial portion remain uncertain. These findings underscore the importance of career guidance and exploration programs to help young individuals make informed decisions about their futures.
-
-
-With our project we plan on creating a 360 degree view of the job market and the skills required for the students to excel in that profession along with the education that is required and the trend of the education and the job market till 2033. 
-'''
-graph1_md = '''# **Analysis of Employment Distribution by Education Level: 2019 vs 2023**
-
-### Key Observations:
-
-1. **Dominance of High School Diploma or Equivalent**:
-   - Both in 2019 and 2023, the **"High school diploma or equivalent"** category has the highest employment distribution percentage.
-   - This indicates that a significant portion of the workforce requires at least a high school diploma, making it a critical baseline qualification.
-
-2. **Stability Across Time**:
-   - Employment distribution across most education levels appears relatively stable between 2019 and 2023.
-   - Only minor changes are observed in the percentages for each category, suggesting consistency in workforce qualifications over time.
-
-3. **Higher Education Levels (Bachelor's and Master's Degrees)**:
-   - While higher education categories like **"Bachelor's degree"** and **"Master's degree"** show smaller percentages compared to high school diplomas, their share remains significant.
-   - This reflects their importance for specialized or higher-paying roles in the workforce.
-
-
-From this graph, we can see that the highest employment in 2019 was in the category of **"High school diploma or equivalent."** However, we cannot say for sure that a high school diploma or equivalent degree will always have the highest employment because, for higher degrees, the **minimum requirement** is often a high school diploma or equivalent.
-
-We also need to analyze data from the **occupation perspective** to draw a more accurate conclusion. For instance, if the highest-paying job is that of a CEO, we need to examine the **minimum degree** a CEO typically holds.
-
-From this graph, we can definitely say that to secure a good job, a person **needs at least a high school diploma or equivalent.** '''
-graph2_md = '''### **Analysis of Skill Importance for High-Wage vs Low-Wage Occupations**
-
-#### Key Observations:
-1. **Core Skills in High-Wage Jobs**:
-   - **Adaptability**, **Problem Solving**, **Computers and Information Technology**, and **Critical and Analytical Thinking** are significantly more emphasized in high-wage occupations, reflecting the demand for problem-solving and technology-driven skills.
-
-2. **Low-Wage Job Focus**:
-   - Skills like **Customer Service**, **Mechanical**, and **Physical Strength** are more important in low-wage roles, indicating a reliance on repetitive or customer-facing tasks.
-
-3. **STEM Dominance in High-Wage Jobs**:
-   - High-wage roles also prioritize **Science**, **Mathematics**, and **Creativity and Innovation**, underscoring the importance of STEM-related skills.
-
-4. **For Any Job**:
-   - Problem solving, Interpersonal (good communication), Adaptability, and Detail Oriented are always very important skills to have.
-
-#### Implications:
-- **Upskilling in Technology and Critical Thinking** is crucial for transitioning to high-wage jobs.
-- While **Customer Service**, and skills relating to physical labor remain key for low-wage roles, a focus on **STEM and leadership skills** can open doors to better paying opportunities.
-- The analysis highlights the growing importance of cognitive and technical skills in today’s workforce.
-'''
-graph3_md = ''' '''
-graph4_md = ''' '''
-graph5_md = ''' '''
-
 
 app.layout = html.Div([
-    html.H1(children='Get Job Data', style={'textAlign': 'center'}),
+    html.Div([
+        html.H1(children='Employment and Career Insights Project', style={'textAlign': 'center'}),
+        dcc.Markdown(children=intro_md, style={'width': '80%', 'margin': 'auto'}),
+    ]),
+    
+    # Correlation Heatmap
+    html.Div([
+        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center','margin-top':'70px'}),
+        dcc.Graph(figure=correlation_heatmap, id='correlation-heatmap', style={'width': '60%', 'margin': 'auto'}),
+    ]),
 
-    dcc.Markdown(children=intro_md, style={'width': '80%', 'margin': 'auto'}),
+    # Employment Distribution by Education Level
+    html.Div([
+        html.H1(children='Employment Distribution by Education Level', style={'textAlign': 'center','margin-top':'70px'}),
+        dcc.Graph(figure=employment_dist, id='employment-dist', style={'width': '80%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph1_md, style={'width': '80%', 'margin': 'auto'}),
+    ]),
 
-    dcc.Graph(figure=pf.generate_correlation_heatmap(dataframes), id='correlation-heatmap'),
+    # Employment Prediction Change by Education Level
+    html.Div([
+        html.H1(children='Employment Prediction Change by Education Level (1929-2033)', style={'textAlign': 'center','margin-top':'70px'}),
+        dcc.Graph(figure=emp_pred_change, id='emp-pred-change', style={'width': '80%', 'margin': 'auto'}),
+    ]),
+    # Fastest Growing Occupations
+    html.Div([
+        html.H1(children='Fastest Growing Occupations', style={'textAlign': 'center','margin-top':'30px'}),
+        dcc.Graph(figure=fastest_growing_occupations_fig, id='fastest-growing-occupations', style={'width': '80%', 'margin': 'auto'}),
+    ]),
+    # html.Div([
+    # dbc.Row(
+    #         [
+    #     dbc.Col( html.Div([
+    #     html.H1(children='Maximum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
+    #     dcc.Graph(figure=max_predicted_decline_occupations_fig, id='max_occupation_decline', style={ 'margin': 'auto'}),
+    # ])),
+    # dbc.Col(
+    # html.Div([
+    #     html.H1(children='Minimum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
+    #     dcc.Graph(figure=min_predicted_decline_occupations_fig, id='min_occupation_decline', style={ 'margin': 'auto'}),
+    # ])),
+        
+    #         ])
 
-    dcc.Graph(figure = pf.employment_dist_by_education_level(dataframes)),
-    dcc.Markdown(children=graph1_md, style={'width': '80%', 'margin': 'auto'}),
-
-    dcc.Graph(figure = pf.skill_importance_high_vs_low(dataframes)),
-    dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
+    # ]),
+    # # Skill Importance in High-Wage vs Low-Wage Jobs
+    html.Div([
+        Row(
+        [
+            Col(
+                html.Div([
+                    html.H2(
+                        "Maximum Occupation Decline Trend as Predicted in 2033",
+                        style={'textAlign': 'center', 'margin-top': '30px'}
+                    ),
+                    dcc.Graph(
+                        figure=max_predicted_decline_occupations_fig,
+                        id='max_occupation_decline',
+                        style={'margin': 'auto'}
+                    ),
+                ]),
+                width=6  # Use half the row's width
+            ),
+            Col(
+                html.Div([
+                    html.H2(
+                        "Minimum Occupation Decline Trend as Predicted in 2033",
+                        style={'textAlign': 'center', 'margin-top': '30px'}
+                    ),
+                    dcc.Graph(
+                        figure=min_predicted_decline_occupations_fig,
+                        id='min_occupation_decline',
+                        style={'margin': 'auto'}
+                    ),
+                ]),
+                width=6  # Use half the row's width
+            ),
+        ],
+        justify="center",  # Align the columns in the center
+        style={'margin-top': '30px'}
+    )
+]),
+    html.Div([
+        dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
+    ]),
 
 
 ])

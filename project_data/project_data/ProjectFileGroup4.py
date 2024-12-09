@@ -45,7 +45,7 @@ def generate_correlation_heatmap(dataframes, title='Feature Correlation Matrix')
     fig = px.imshow(
         correlation_matrix,
         text_auto=".2f",
-        color_continuous_scale="RdBu",
+        color_continuous_scale="ylgnbu",
         title=title,
     )
     return fig
@@ -134,7 +134,60 @@ def employment_dist_by_education_level(dataframes):
     return fig
 
 
+import plotly.graph_objects as go
+
 def emp_pred_chang_by_education_1929_2333(dataframes):
+    """
+    Create a line graph comparing employment prediction changes by education level (2019-29 vs 2023-33).
+    
+    Parameters:
+    dataframes (dict): Dictionary containing DataFrames for 2019-29 and 2023-33 employment data.
+    
+    Returns:
+    fig (plotly.graph_objects.Figure): A Plotly figure for Dash.
+    """
+    # Data for 2019
+    labels_2019 = dataframes['education_52_1929']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
+    values_2019 = dataframes['education_52_1929']['Employment change, percent, 2019-29'][1:]
+
+    # Data for 2023
+    labels_2023 = dataframes['education_52_2333']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
+    values_2023 = dataframes['education_52_2333']['Percent employment change, 2023-33'][1:]
+
+    # Create a Plotly figure
+    fig = go.Figure()
+
+    # Add trace for 2019 data
+    # fig.add_trace(go.Scatter(
+    #     x=labels_2019,
+    #     y=values_2019,
+    #     mode='lines+markers',
+    #     name='2019-29',
+    #     line=dict(color='lightcoral', width=2),
+    #     marker=dict(size=8)
+    # ))
+
+    # Add trace for 2023 data
+    fig.add_trace(go.Scatter(
+        x=labels_2023,
+        y=values_2023,
+        mode='lines+markers',
+        name='2023-33',
+        line=dict(color='skyblue', width=2),
+        marker=dict(size=8)
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title="Employment Prediction Change by Education Level: 2023-33",
+        xaxis_title="Education Level",
+        yaxis_title="Employment Change (%)",
+        xaxis=dict(tickangle=45),
+        template="plotly_white",
+        legend=dict(title="Year")
+    )
+
+    return fig
 # Data for 2019
     labels_2019 = dataframes['education_52_1929']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
     values_2019 = dataframes['education_52_1929']['Employment change, percent, 2019-29'][1:]
@@ -277,4 +330,111 @@ def most_important_skills_for_cs_jobs(dataframes):
     #fig.show()
     return fig
 
-#Lisa's code
+
+
+#Occupation Dataset More Analysis
+def compare_fastest_growing_occupations(dataframes):
+    """
+    Compare the fastest growing occupations for 2023–33 dataset, returning Plotly figures.
+    
+    Parameters:
+    dataframes (dict): A dictionary containing the DataFrame 'data_2333'.
+    
+    Returns:
+    tuple: (employment_growth_fig, employment_numbers_fig) as Plotly figures.
+    """
+    import plotly.express as px
+    import plotly.graph_objects as go
+
+    # Extract dataset for 2023–33
+    data_2333 = dataframes['occupation_13_14_2333'].sort_values(by="Employment change, percent, 2023–33", ascending=False).head()
+
+    # Bar Graph: Employment Growth Comparison
+    employment_growth_fig = go.Figure()
+
+    employment_growth_fig.add_trace(go.Bar(
+        x=data_2333["2023 National Employment Matrix title"],
+        y=data_2333["Employment change, percent, 2023–33"],
+        name="2023–33",
+        marker_color="lightcoral"
+    ))
+
+    employment_growth_fig.update_layout(
+        title="Sectors Where Maximum Growth in Employment 2023–33",
+        xaxis_title="Occupation",
+        yaxis_title="Employment Percentage Change %",
+        xaxis=dict(tickangle=45),
+        template="plotly_white"
+    )
+
+    # Bar Chart: Employment Numbers
+
+    return employment_growth_fig
+def show_max_decline_bar_chart_occupation_15_16_2333(dataframes):
+    """
+    Show professions predicted to have the maximum decline in employment rate using an inverted bar chart.
+    """
+    import plotly.graph_objects as go
+
+    # Extract dataset for slowest-growing professions
+    data_2333_dec = dataframes['occupation_15_16_2333'].sort_values(
+        by="Employment change, percent, 2023–33", ascending=True
+    ).head(10)
+
+    # Create bar chart
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=data_2333_dec["2023 National Employment Matrix title"],
+        y=data_2333_dec["Employment change, percent, 2023–33"],  # Negative values
+        marker_color="red",
+        name="Predicted Decline (2023-33)"
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title="Professions Predicted to Have Maximum Decline (2023-33)",
+        xaxis_title="Occupation",
+        yaxis_title="Employment Change (%)",
+        xaxis=dict(tickangle=45),
+        yaxis=dict(range=[min(data_2333_dec["Employment change, percent, 2023–33"]), 0]),  # Ensure Y-axis ends at 0
+        template="plotly_white"
+    )
+
+    return fig
+
+def show_min_decline_bar_chart_occupation_15_16_2333(dataframes):
+    """
+    Show professions predicted to have the maximum decline in employment rate using an inverted bar chart.
+    """
+    import plotly.graph_objects as go
+
+    # Extract dataset for slowest-growing professions
+    data_2333_dec = dataframes['occupation_15_16_2333'].sort_values(
+        by="Employment change, percent, 2023–33", ascending=False
+    ).head(10)
+
+    # Create bar chart
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=data_2333_dec["2023 National Employment Matrix title"],
+        y=data_2333_dec["Employment change, percent, 2023–33"],  # Negative values
+        marker_color="blue",
+        name="Predicted Decline (2023-33)"
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title="Professions Predicted to Have Minimum Decline (2023-33)",
+        xaxis_title="Occupation",
+        yaxis_title="Employment Change (%)",
+        xaxis=dict(tickangle=45),
+        yaxis=dict(range=[min(data_2333_dec["Employment change, percent, 2023–33"]), 0]),  # Ensure Y-axis ends at 0
+        template="plotly_white"
+    )
+
+    return fig
+
+
+
