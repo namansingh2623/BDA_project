@@ -15,11 +15,11 @@ def process_and_clean_data():
 
 
     #Naman Paths
-    "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-    file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    #"BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    #"/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    #file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    #file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    #file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
     # Malavs Paths
     # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
@@ -33,9 +33,10 @@ def process_and_clean_data():
     
 
     # DAN PATHS
-    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    file_path = "project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path2 = "project_data/project_data/Datasets/2023-33/education.xlsx"
+    file_path3 = "project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    file_path4 = "project_data/project_data/Datasets/2023-33/skills.xlsx"
 
 
 
@@ -43,7 +44,7 @@ def process_and_clean_data():
     # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
     # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
     # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
-    print("FIle Paths==>",file_path, file_path2, file_path3)
+    print("FIle Paths==>",file_path, file_path2, file_path3, file_path4)
     def load_table_to_dataframe(file_path, sheet_name, header_row, num_rows):
         try:
             print(file_path)
@@ -61,6 +62,12 @@ def process_and_clean_data():
     education_53_2333 = load_table_to_dataframe(file_path2, "Table 5.3", header_row=1, num_rows=833)
     education_54_2333 = load_table_to_dataframe(file_path2, "Table 5.4", header_row=1, num_rows=832)
     occupation_11_1929 = load_table_to_dataframe(file_path3, "Table 1.1", header_row=1, num_rows=23)
+    #skills dfs
+    skills_61_2333 = load_table_to_dataframe(file_path4, "Table 6.1", header_row=1, num_rows=23)
+    skills_62_2333 = load_table_to_dataframe(file_path4, "Table 6.2", header_row=1, num_rows=833)
+    skills_63_2333 = load_table_to_dataframe(file_path4, "Table 6.3", header_row=1, num_rows=31)
+    skills_64_2333 = load_table_to_dataframe(file_path4, "Table 6.4", header_row=1, num_rows=9)
+    skills_65_2333 = load_table_to_dataframe(file_path4, "Table 6.5", header_row=1, num_rows=833)
 
     # Process and clean data
     occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
@@ -85,12 +92,27 @@ def process_and_clean_data():
     education_53_2333['2023 National Employment Matrix title'] = education_53_2333[
         '2023 National Employment Matrix title'
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
-
-    "BDA_project/project_data/project_data/"
-    national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
-    national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
     
+    # process skills
+    skills_61_2333['2023 National Employment Matrix title'] = skills_61_2333[
+        '2023 National Employment Matrix title'
+    ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
+    skills_62_2333['2023 National Employment Matrix title'] = skills_62_2333[
+        '2023 National Employment Matrix title'
+    ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
+    skills_63_2333['2023 National Employment Matrix title'] = skills_63_2333[
+        '2023 National Employment Matrix title'
+    ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
+    skills_65_2333['2023 National Employment Matrix title'] = skills_65_2333[
+        '2023 National Employment Matrix title'
+    ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
+
+    #"BDA_project/project_data/project_data/"
+    national_M2019_dl = pd.read_excel("project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
+    
+    print(national_M2019_dl)
 
     # Return all DataFrames in a dictionary
     return {
@@ -104,7 +126,11 @@ def process_and_clean_data():
         "occupation_11_1929": occupation_11_1929,
         "oesm_national_M2019_dl_19":national_M2019_dl,
         "oesm_national_M2023_dl_23":national_M2023_dl,
-        
+        "skills_61_2333":skills_61_2333,
+        "skills_62_2333":skills_62_2333,
+        "skills_63_2333":skills_63_2333,
+        "skills_64_2333":skills_64_2333,
+        "skills_65_2333":skills_65_2333,
+
 
     }
-
