@@ -27,9 +27,9 @@ def process_and_clean_data():
     # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
     # LISA PATHS: 
-    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    # file_path = "Datasets/2019-29/education.xlsx"
+    # file_path2 = "Datasets/2023-33/education.xlsx"
+    # file_path3 = "Datasets/2019-29/occupation.xlsx"
     
 
     # DAN PATHS
