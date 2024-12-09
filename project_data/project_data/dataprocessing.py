@@ -15,12 +15,12 @@ def process_and_clean_data():
 
 
     #Naman Paths
-    #"BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    #"/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    #file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    #file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-    #file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
-
+    "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    file_path4 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/occupation.xlsx"
     # Malavs Paths
     # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
     # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
@@ -61,8 +61,32 @@ def process_and_clean_data():
     education_52_2333 = load_table_to_dataframe(file_path2, "Table 5.2", header_row=1, num_rows=9)
     education_53_2333 = load_table_to_dataframe(file_path2, "Table 5.3", header_row=1, num_rows=833)
     education_54_2333 = load_table_to_dataframe(file_path2, "Table 5.4", header_row=1, num_rows=832)
+    
+    
+    
     occupation_11_1929 = load_table_to_dataframe(file_path3, "Table 1.1", header_row=1, num_rows=23)
-    #skills dfs
+    occupation_12_1929 = load_table_to_dataframe(file_path3, "Table 1.2", header_row=1, num_rows=1048)
+    occupation_13_1929 = load_table_to_dataframe(file_path3, "Table 1.3", header_row=1, num_rows=31)
+    occupation_14_1929 = load_table_to_dataframe(file_path3, "Table 1.4", header_row=1, num_rows=31)
+    occupation_13_2333 = load_table_to_dataframe(file_path=file_path4, sheet_name='Table 1.3', header_row=1, num_rows=31)
+    occupation_14_2333 = load_table_to_dataframe(file_path=file_path4, sheet_name='Table 1.4', header_row=1, num_rows=31)
+    
+
+    data_1929 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_1929.xlsx")
+    data_2333 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_2333.xlsx")
+    # Check if DataFrames are loaded successfully
+    dataframes = [
+    education_52_1929, education_53_1929, education_54_1929,
+    education_51_2333, education_52_2333, education_53_2333, education_54_2333,
+    occupation_11_1929, occupation_12_1929, occupation_13_1929, occupation_14_1929
+    ]
+
+# Check if any DataFrame failed to load
+    if any(df is None for df in dataframes):
+        print("Failed to load one or more DataFrames. Please check the file paths and sheet names.")
+        return
+
+    # Example: Extracting labels and creating a dictionary for title labels    #skills dfs
     skills_61_2333 = load_table_to_dataframe(file_path4, "Table 6.1", header_row=1, num_rows=23)
     skills_62_2333 = load_table_to_dataframe(file_path4, "Table 6.2", header_row=1, num_rows=833)
     skills_63_2333 = load_table_to_dataframe(file_path4, "Table 6.3", header_row=1, num_rows=31)
@@ -72,6 +96,43 @@ def process_and_clean_data():
     # Process and clean data
     occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     title_labels_dict = occupation_11_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
+
+    occupation_12_1929['lables'] = occupation_12_1929['2019 National Employment Matrix code'].str.split('-').str[0]
+    title_labels_dict = occupation_12_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
+
+    occupation_13_1929['lables'] = occupation_13_1929['2019 National Employment Matrix code'].str.split('-').str[0]
+    title_labels_dict = occupation_13_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
+
+    occupation_14_1929['lables'] = occupation_14_1929['2019 National Employment Matrix code'].str.split('-').str[0]
+    title_labels_dict = occupation_14_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
+
+    occupation_13_2333['lables'] = occupation_13_2333['2023 National Employment Matrix code'].str.split('-').str[0]
+    title_labels_dict = occupation_13_2333.set_index('lables')['2023 National Employment Matrix title'].to_dict()
+
+    occupation_14_2333['lables'] = occupation_14_2333['2023 National Employment Matrix code'].str.split('-').str[0]
+    title_labels_dict = occupation_14_2333.set_index('lables')['2023 National Employment Matrix title'].to_dict()
+
+    occupation_11_1929.drop(index=0,inplace=True)
+    occupation_12_1929.drop(index=0,inplace=True)
+    occupation_13_1929.drop(index=0,inplace=True)
+    occupation_14_1929.drop(index=0,inplace=True)
+    occupation_13_14_1929 = pd.concat(
+    [occupation_13_1929,  # First DataFrame
+    occupation_14_1929], # Second DataFrame
+    axis=0
+    )
+    occupation_13_14_1929.drop_duplicates(subset="2019 National Employment Matrix code", keep='first', inplace=True)
+
+    occupation_13_2333.drop(index=0,inplace=True)
+    occupation_14_2333.drop(index=0,inplace=True)
+    occupation_13_14_2333 = pd.concat(
+    [occupation_13_2333,  # First DataFrame
+    occupation_14_2333], # Second DataFrame
+    axis=0
+    )
+    occupation_13_14_2333.drop_duplicates(subset="2023 National Employment Matrix code", keep='first', inplace=True)
+
+
 
     education_53_1929['lables'] = education_53_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     education_53_1929['Title Labels'] = education_53_1929['lables'].map(title_labels_dict)
@@ -111,8 +172,7 @@ def process_and_clean_data():
     #"BDA_project/project_data/project_data/"
     national_M2019_dl = pd.read_excel("project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
     national_M2023_dl = pd.read_excel("project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
-    
-    print(national_M2019_dl)
+    print(national_M2019_dl)    
 
     # Return all DataFrames in a dictionary
     return {
@@ -124,6 +184,14 @@ def process_and_clean_data():
         "education_53_2333": education_53_2333,
         "education_54_2333": education_54_2333,
         "occupation_11_1929": occupation_11_1929,
+        "occupation_12_1929": occupation_12_1929,
+        "occupation_13_1929": occupation_13_1929,
+        "occupation_14_1929":occupation_14_1929,
+        "occupation_13_14_1929":occupation_13_14_1929,
+        "occupation_13_2333": occupation_13_2333,
+        "occupation_14_2333": occupation_14_2333,
+        "occupation_13_14_2333":occupation_13_14_2333,
+        "title_labels_dict": title_labels_dict,
         "oesm_national_M2019_dl_19":national_M2019_dl,
         "oesm_national_M2023_dl_23":national_M2023_dl,
         "skills_61_2333":skills_61_2333,
@@ -131,6 +199,9 @@ def process_and_clean_data():
         "skills_63_2333":skills_63_2333,
         "skills_64_2333":skills_64_2333,
         "skills_65_2333":skills_65_2333,
+        "data_1929":data_1929,
+        "data_2333":data_2333,
+        
 
 
     }

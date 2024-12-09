@@ -1,17 +1,52 @@
-from dash import Dash, html, dcc, callback, Output, Input
-
-import pandas as pd
-import plotly.io as pio
-import matplotlib.pyplot as plt
-import nbimporter
-import sys
+from dash import Dash, html, dcc
 import dataprocessing as dp
-
 import ProjectFileGroup4 as pf
+import plotly.graph_objects as go
 
 
-dataframes = dp.process_and_clean_data()
+# Function to generate placeholder graph
+def placeholder_graph(message="Graph not found"):
+    return go.Figure().add_annotation(
+        text=message,
+        xref="paper", yref="paper",
+        x=0.5, y=0.5, showarrow=False,
+        font=dict(size=20, color="red")
+    )
 
+# Process and clean data
+try:
+    dataframes = dp.process_and_clean_data()
+except Exception as e:
+    dataframes = None
+    print(f"Error processing data: {e}")
+
+# Generate graphs with error handling
+try:
+    correlation_heatmap = pf.generate_correlation_heatmap(dataframes)
+except Exception as e:
+    correlation_heatmap = placeholder_graph("Correlation Heatmap Not Found")
+    print(f"Error generating correlation heatmap: {e}")
+
+try:
+    employment_dist = pf.employment_dist_by_education_level(dataframes)
+except Exception as e:
+    employment_dist = placeholder_graph("Employment Distribution Not Found")
+    print(f"Error generating employment distribution: {e}")
+
+try:
+    emp_pred_change = pf.emp_pred_chang_by_education_1929_2333(dataframes)
+except Exception as e:
+    emp_pred_change = placeholder_graph("Employment Prediction Change Not Found")
+    print(f"Error generating employment prediction change: {e}")
+
+try:
+    fastest_growing_occupations_fig1, fastest_growing_occupations_fig2 = pf.compare_fastest_growing_occupations(dataframes)
+except Exception as e:
+    fastest_growing_occupations_fig1 = placeholder_graph("Fastest Growing Occupations (Growth) Not Found")
+    fastest_growing_occupations_fig2 = placeholder_graph("Fastest Growing Occupations (Numbers) Not Found")
+    print(f"Error generating fastest growing occupations: {e}")
+
+# Initialize Dash app
 app = Dash()
 intro_md = '''
 - In this project we tend to analyise what kind of profession is required for the students in the future. 
