@@ -1,4 +1,5 @@
 from dash import Dash, html, dcc
+import dash_bootstrap_components as dbc
 import dataprocessing as dp
 import ProjectFileGroup4 as pf
 import plotly.graph_objects as go
@@ -125,17 +126,61 @@ app.layout = html.Div([
         html.H1(children='Fastest Growing Occupations', style={'textAlign': 'center','margin-top':'30px'}),
         dcc.Graph(figure=fastest_growing_occupations_fig, id='fastest-growing-occupations', style={'width': '80%', 'margin': 'auto'}),
     ]),
+    # html.Div([
+    # dbc.Row(
+    #         [
+    #     dbc.Col( html.Div([
+    #     html.H1(children='Maximum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
+    #     dcc.Graph(figure=max_predicted_decline_occupations_fig, id='max_occupation_decline', style={ 'margin': 'auto'}),
+    # ])),
+    # dbc.Col(
+    # html.Div([
+    #     html.H1(children='Minimum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
+    #     dcc.Graph(figure=min_predicted_decline_occupations_fig, id='min_occupation_decline', style={ 'margin': 'auto'}),
+    # ])),
+        
+    #         ])
 
-     html.Div([
-        html.H1(children='Maximum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
-        dcc.Graph(figure=max_predicted_decline_occupations_fig, id='max_occupation_decline', style={'width': '80%', 'margin': 'auto'}),
-    ]),
-
+    # ]),
+    # # Skill Importance in High-Wage vs Low-Wage Jobs
     html.Div([
-        html.H1(children='Minimum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
-        dcc.Graph(figure=min_predicted_decline_occupations_fig, id='min_occupation_decline', style={'width': '80%', 'margin': 'auto'}),
-    ]),   
-    # Skill Importance in High-Wage vs Low-Wage Jobs
+        dbc.Row(
+        [
+            dbc.Col(
+                html.Div([
+                    html.H2(
+                        "Maximum Occupation Decline Trend as Predicted in 2033",
+                        style={'textAlign': 'center', 'margin-top': '30px'}
+                    ),
+                    dcc.Graph(
+                        figure=max_predicted_decline_occupations_fig,
+                        id='max_occupation_decline',
+                        style={'margin': 'auto'}
+                    ),
+                ]),
+                width=6  # Use half the row's width
+            ),
+            dbc.Col(
+                html.Div([
+                    html.H2(
+                        "Minimum Occupation Decline Trend as Predicted in 2033",
+                        style={'textAlign': 'center', 'margin-top': '30px'}
+                    ),
+                    dcc.Graph(
+                        figure=min_predicted_decline_occupations_fig,
+                        id='min_occupation_decline',
+                        style={'margin': 'auto'}
+                    ),
+                ]),
+                width=6  # Use half the row's width
+            ),
+        ],
+        justify="center",  # Align the columns in the center
+        style={'margin-top': '30px'}
+    )
+]),
+    
+    
     html.Div([
         dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
