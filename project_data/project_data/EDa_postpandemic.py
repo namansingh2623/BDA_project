@@ -28,13 +28,13 @@ def process_table(df):
     Args:
         df (pd.DataFrame): DataFrame to process.
     """
-    table_title = df.iloc[0, 0]  # Assuming the title is in the first cell
+    table_title = df.iloc[0, 0] 
     print(f"Table Title: {table_title}")
     print("Column Names:", df.columns.tolist())
     print("\nRow Data:")
     print(df.head())
 
-# --- Visualization ---
+
 def plot_bar_chart(x, y, title, xlabel, ylabel, color='skyblue'):
     """
     Plot a bar chart.
@@ -75,7 +75,6 @@ def plot_data_distribution(df, x_col, y_col, title, xlabel, ylabel, color='blue'
     plt.tight_layout()
     plt.show()
 
-# --- Main Execution ---
 def main():
     # Load data
     dataframes = load_data()
@@ -139,7 +138,6 @@ def main():
     inspect_table(table_5_3, "Table 5.3")
     process_table(table_5_3)
 
-    # Total occupation data analysis
     education_levels = [
         "Less than high school diploma",
         "High school diploma or equivalent",
