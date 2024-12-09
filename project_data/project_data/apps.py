@@ -144,9 +144,9 @@ app.layout = html.Div([
     # ]),
     # # Skill Importance in High-Wage vs Low-Wage Jobs
     html.Div([
-        dbc.Row(
+        Row(
         [
-            dbc.Col(
+            Col(
                 html.Div([
                     html.H2(
                         "Maximum Occupation Decline Trend as Predicted in 2033",
@@ -160,7 +160,7 @@ app.layout = html.Div([
                 ]),
                 width=6  # Use half the row's width
             ),
-            dbc.Col(
+            Col(
                 html.Div([
                     html.H2(
                         "Minimum Occupation Decline Trend as Predicted in 2033",

@@ -81,8 +81,8 @@ def process_and_clean_data():
     # skills_51_2333 = load_table_to_dataframe(file_path4, "Table 5.1", header_row=1, num_rows=10)
     # skills_52_2333 = load_table_to_dataframe(file_path4, "Table 5.2", header_row=1, num_rows=10)
 
-    data_1929 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_1929.xlsx")
-    data_2333 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_2333.xlsx")
+    # data_1929 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_1929.xlsx")
+    # data_2333 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_2333.xlsx")
     # Check if DataFrames are loaded successfully
     dataframes = [
     education_52_1929, education_53_1929, education_54_1929,
@@ -242,9 +242,5 @@ def process_and_clean_data():
         "skills_63_2333":skills_63_2333,
         "skills_64_2333":skills_64_2333,
         "skills_65_2333":skills_65_2333,
-        "data_1929":data_1929,
-        "data_2333":data_2333,
-        
-
 
     }
