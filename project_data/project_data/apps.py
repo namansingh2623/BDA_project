@@ -142,6 +142,8 @@ app.layout = html.Div([
     dcc.Graph(figure = pf.skill_importance_high_vs_low(dataframes)),
     dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
 
+    
+
 
 ])
 

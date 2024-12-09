@@ -172,9 +172,9 @@ def process_and_clean_data():
 
 
     #"BDA_project/project_data/project_data/"
-    national_M2019_dl = pd.read_excel("project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
-    national_M2023_dl = pd.read_excel("project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
-    print(national_M2019_dl)    
+    national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
+      
 
     # Return all DataFrames in a dictionary
     return {
