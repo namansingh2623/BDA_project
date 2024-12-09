@@ -90,7 +90,7 @@ def employment_dist_by_education_level(dataframes):
     Generate a grouped bar chart comparing employment distribution by education level for 2019 and 2023 using Plotly.
     """
     # Data for 2023
-    labels_2023 = dataframes['education_52_2333']['Typical entry-level education']
+    labels_2023 = dataframes['education_52_2333']['Typical entry-level education'].str.strip() # this was the fix for side by side bars
     values_2023 = dataframes['education_52_2333']['Employment distribution, percent, 2023']
 
     # Data for 2019
@@ -166,40 +166,113 @@ def emp_pred_chang_by_education_1929_2333(dataframes):
     plt.tight_layout()
     plt.show()
 
-def median_wage_change(dataframes):
+def skill_importance_high_vs_low(dataframes):
+    # Define skill columns
+    skill_columns = [
+        'Adaptability', 'Computers and information technology', 'Creativity and innovation',
+        'Critical and analytical thinking', 'Customer service', 'Detail oriented', 'Fine motor',
+        'Interpersonal', 'Leadership', 'Mathematics', 'Mechanical', 'Physical strength and stamina',
+        'Problem solving and decision making', 'Project management', 'Science', 'Speaking and listening',
+        'Writing and reading'
+    ]
+    
+    # Ensure skill columns are numeric
+    dataframes['skills_62_2333'][skill_columns] = dataframes['skills_62_2333'][skill_columns].apply(pd.to_numeric, errors='coerce')
 
+    # Clean and convert the 'Median annual wage, dollars, 2023[1]' column
+    dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'] = (
+        dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]']
+        .astype(str)  # Convert to string
+        .str.replace(',', '', regex=True)  # Remove commas
+        .str.extract('(\d+)', expand=False)  # Extract numeric part
+    )
+    dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'] = pd.to_numeric(
+        dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'], errors='coerce'
+    )
 
-    labels_2019 = dataframes['education_52_1929']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
-    values_2019 = dataframes['education_52_1929']['Median annual wage, 2020(1)'][1:]
+    # Debugging: Check unique values and distribution
+    print("Unique values in wage column:")
+    print(dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'].unique())
+    print("Wage column statistics:")
+    print(dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'].describe())
 
-    # Data for 2023
-    labels_2023 = dataframes['education_52_2333']['Typical entry-level education'][1:]  # Exclude Total, All Occupations
-    values_2023 = dataframes['education_52_2333']['Median annual wage, dollars, 2023[1]'][1:]
+    # Filter for high-wage and low-wage occupations
+    high_wage = dataframes['skills_62_2333'][dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'] > 90000]
+    low_wage = dataframes['skills_62_2333'][dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'] < 60000]
 
-    # Ensure labels match for comparison
-    # assert list(labels_2023) == list(labels_2019), "Labels for 2019 and 2023 do not match!"
+    # Debugging: Check filtered data
+    print(f"High-wage occupations count: {high_wage.shape[0]}")
+    print(f"Low-wage occupations count: {low_wage.shape[0]}")
 
-    # Convert labels to positions for plotting
-    x = np.arange(len(labels_2023))  # Positions for each education level
+    # If no data for either category, return an empty figure
+    if high_wage.empty or low_wage.empty:
+        print("Warning: No data available for high-wage or low-wage occupations.")
+        return px.line_polar(title="Skill Importance for High-Wage vs Low-Wage Occupations (No Data)")
 
-    # Plot the line graph
-    # Plot area chart
-    plt.figure(figsize=(14, 7))
-    plt.fill_between(x, values_2023, alpha=0.6, color='skyblue', label='2023')
-    plt.fill_between(x, values_2019, alpha=0.6, color='lightcoral', label='2019')
-    plt.plot(x, values_2023, marker='o', color='skyblue', linewidth=2)
-    plt.plot(x, values_2019, marker='o', color='lightcoral', linewidth=2)
+    # Calculate average skill ratings for each wage group
+    high_wage_skills = high_wage[skill_columns].mean().fillna(0)
+    low_wage_skills = low_wage[skill_columns].mean().fillna(0)
 
-    # Add labels, title, and legend
-    plt.title('Median Annual Wage Change from 2020 vs 2023', fontsize=16)
-    plt.xlabel('Education Level', fontsize=14)
-    plt.ylabel('Median Annual Wage ($)', fontsize=14)
-    plt.xticks(x, labels_2023, rotation=45, ha='right', fontsize=12)
-    plt.legend(title="Year", fontsize=12)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    # Prepare data for radar chart
+    radar_data = pd.DataFrame({
+        'Skill': skill_columns,
+        'High-Wage': high_wage_skills.values,
+        'Low-Wage': low_wage_skills.values
+    })
 
-    # Show the plot
-    plt.tight_layout()
-    plt.show()
+    # Melt the dataframe for Plotly radar chart
+    radar_data = radar_data.melt(id_vars='Skill', var_name='Wage Group', value_name='Skill Rating')
 
+    # Create radar chart
+    fig = px.line_polar(
+        radar_data,
+        r='Skill Rating',
+        theta='Skill',
+        color='Wage Group',
+        title='Skill Importance for High-Wage vs Low-Wage Occupations',
+        line_close=True
+    )
+    fig.update_traces(fill='toself')
+    
+    # Return the figure
+    #fig.show()
+    return fig
 
+def most_important_skills_for_cs_jobs(dataframes):
+    # Define skill columns
+    skill_columns = [
+        'Adaptability', 'Computers and information technology', 'Creativity and innovation',
+        'Critical and analytical thinking', 'Customer service', 'Detail oriented', 'Fine motor',
+        'Interpersonal', 'Leadership', 'Mathematics', 'Mechanical', 'Physical strength and stamina',
+        'Problem solving and decision making', 'Project management', 'Science', 'Speaking and listening',
+        'Writing and reading'
+    ]
+    
+    # Ensure skill columns are numeric
+    dataframes['skills_62_2333'][skill_columns] = dataframes['skills_62_2333'][skill_columns].apply(pd.to_numeric, errors='coerce')
+
+    # Filter rows where '2023 National Employment Matrix code' starts with '15'
+    cs_jobs = dataframes['skills_62_2333'][dataframes['skills_62_2333']['2023 National Employment Matrix code'].astype(str).str.startswith('15')]
+
+    # Calculate the average skill ratings for computer science jobs
+    avg_skill_ratings = cs_jobs[skill_columns].mean().sort_values(ascending=False)
+
+    # Prepare data for visualization
+    skill_data = pd.DataFrame({
+        'Skill': avg_skill_ratings.index,
+        'Average Rating': avg_skill_ratings.values
+    })
+
+    # Create bar chart
+    fig = px.bar(
+        skill_data,
+        x='Skill',
+        y='Average Rating',
+        title='Most Important Skills for Computer Science Jobs',
+        labels={'Skill': 'Skills', 'Average Rating': 'Average Skill Rating'},
+        template='plotly_white'
+    )
+    fig.update_layout(xaxis_tickangle=45)  # Rotate x-axis labels for readability
+    
+    #fig.show()
+    return fig
