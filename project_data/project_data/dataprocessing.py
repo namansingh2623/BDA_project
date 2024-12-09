@@ -20,7 +20,9 @@ def process_and_clean_data():
     file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
     file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
     file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
-    file_path4 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/occupation.xlsx"
+    file_path4 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/skills.xlsx"
+    file_path5 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/occupation.xlsx"
+
     # Malavs Paths
     # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
     # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
@@ -33,10 +35,10 @@ def process_and_clean_data():
     
 
     # DAN PATHS
-    file_path = "project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path2 = "project_data/project_data/Datasets/2023-33/education.xlsx"
-    file_path3 = "project_data/project_data/Datasets/2019-29/occupation.xlsx"
-    file_path4 = "project_data/project_data/Datasets/2023-33/skills.xlsx"
+    # file_path = "project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path2 = "project_data/project_data/Datasets/2023-33/education.xlsx"
+    # file_path3 = "project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    # file_path4 = "project_data/project_data/Datasets/2023-33/skills.xlsx"
 
 
 
@@ -68,8 +70,8 @@ def process_and_clean_data():
     occupation_12_1929 = load_table_to_dataframe(file_path3, "Table 1.2", header_row=1, num_rows=1048)
     occupation_13_1929 = load_table_to_dataframe(file_path3, "Table 1.3", header_row=1, num_rows=31)
     occupation_14_1929 = load_table_to_dataframe(file_path3, "Table 1.4", header_row=1, num_rows=31)
-    occupation_13_2333 = load_table_to_dataframe(file_path=file_path4, sheet_name='Table 1.3', header_row=1, num_rows=31)
-    occupation_14_2333 = load_table_to_dataframe(file_path=file_path4, sheet_name='Table 1.4', header_row=1, num_rows=31)
+    occupation_13_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.3', header_row=1, num_rows=31)
+    occupation_14_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.4', header_row=1, num_rows=31)
     
 
     data_1929 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_1929.xlsx")
