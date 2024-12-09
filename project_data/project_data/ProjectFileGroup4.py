@@ -45,7 +45,7 @@ def generate_correlation_heatmap(dataframes, title='Feature Correlation Matrix')
     fig = px.imshow(
         correlation_matrix,
         text_auto=".2f",
-        color_continuous_scale="ylgnbu",
+        color_continuous_scale="RdBu",
         title=title,
     )
     return fig
@@ -276,3 +276,5 @@ def most_important_skills_for_cs_jobs(dataframes):
     
     #fig.show()
     return fig
+
+#Lisa's code
