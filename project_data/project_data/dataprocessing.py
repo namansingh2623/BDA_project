@@ -78,8 +78,8 @@ def process_and_clean_data():
     occupation_15_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.5', header_row=1, num_rows=31)
     occupation_16_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.6', header_row=1, num_rows=31)
     
-    skills_51_2333 = load_table_to_dataframe(file_path4, "Table 5.1", header_row=1, num_rows=10)
-    skills_52_2333 = load_table_to_dataframe(file_path4, "Table 5.2", header_row=1, num_rows=10)
+    # skills_51_2333 = load_table_to_dataframe(file_path4, "Table 5.1", header_row=1, num_rows=10)
+    # skills_52_2333 = load_table_to_dataframe(file_path4, "Table 5.2", header_row=1, num_rows=10)
 
     data_1929 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_1929.xlsx")
     data_2333 = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/OurProcessedDatasets/top_5_2333.xlsx")
