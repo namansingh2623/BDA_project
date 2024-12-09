@@ -95,14 +95,14 @@ graph2_md = '''
 '''
 
 
-app = Dash()
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = html.Div([
     html.Div([
         html.H1(children='Employment and Career Insights Project', style={'textAlign': 'center'}),
         dcc.Markdown(children=intro_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
-    
+
     # Correlation Heatmap
     html.Div([
         html.H1(children='Heatmap of Education Level', style={'textAlign': 'center','margin-top':'70px'}),
@@ -138,15 +138,15 @@ app.layout = html.Div([
     #     html.H1(children='Minimum Occupation Decline Treand as predicted in 2033', style={'textAlign': 'center','margin-top':'30px'}),
     #     dcc.Graph(figure=min_predicted_decline_occupations_fig, id='min_occupation_decline', style={ 'margin': 'auto'}),
     # ])),
-        
+
     #         ])
 
     # ]),
     # # Skill Importance in High-Wage vs Low-Wage Jobs
     html.Div([
-        Row(
+        dbc.Row(
         [
-            Col(
+            dbc.Col(
                 html.Div([
                     html.H2(
                         "Maximum Occupation Decline Trend as Predicted in 2033",
@@ -160,7 +160,7 @@ app.layout = html.Div([
                 ]),
                 width=6  # Use half the row's width
             ),
-            Col(
+            dbc.Col(
                 html.Div([
                     html.H2(
                         "Minimum Occupation Decline Trend as Predicted in 2033",
