@@ -105,21 +105,12 @@ def process_and_clean_data():
     # Process and clean data
     occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     title_labels_dict = occupation_11_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
-
     occupation_12_1929['lables'] = occupation_12_1929['2019 National Employment Matrix code'].str.split('-').str[0]
-    title_labels_dict = occupation_12_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
-
     occupation_13_1929['lables'] = occupation_13_1929['2019 National Employment Matrix code'].str.split('-').str[0]
-    title_labels_dict = occupation_13_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
-
     occupation_14_1929['lables'] = occupation_14_1929['2019 National Employment Matrix code'].str.split('-').str[0]
-    title_labels_dict = occupation_14_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
-
     occupation_13_2333['lables'] = occupation_13_2333['2023 National Employment Matrix code'].str.split('-').str[0]
-    title_labels_dict = occupation_13_2333.set_index('lables')['2023 National Employment Matrix title'].to_dict()
-
     occupation_14_2333['lables'] = occupation_14_2333['2023 National Employment Matrix code'].str.split('-').str[0]
-    title_labels_dict = occupation_14_2333.set_index('lables')['2023 National Employment Matrix title'].to_dict()
+
 
     occupation_15_1929['lables'] = occupation_15_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     occupation_16_1929['lables'] = occupation_15_1929['2019 National Employment Matrix code'].str.split('-').str[0]
