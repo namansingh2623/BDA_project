@@ -68,6 +68,7 @@ def process_and_clean_data():
     
     
     occupation_11_1929 = load_table_to_dataframe(file_path3, "Table 1.1", header_row=1, num_rows=23)
+    occupation_11_1929_2 = load_table_to_dataframe(file_path3, "Table 1.1", header_row=1, num_rows=23)
     occupation_12_1929 = load_table_to_dataframe(file_path3, "Table 1.2", header_row=1, num_rows=1048)
     occupation_13_1929 = load_table_to_dataframe(file_path3, "Table 1.3", header_row=1, num_rows=31)
     occupation_14_1929 = load_table_to_dataframe(file_path3, "Table 1.4", header_row=1, num_rows=31)
@@ -89,7 +90,7 @@ def process_and_clean_data():
     dataframes = [
     education_52_1929, education_53_1929, education_54_1929,
     education_51_2333, education_52_2333, education_53_2333, education_54_2333,
-    occupation_11_1929, occupation_12_1929, occupation_13_1929, occupation_14_1929, occupation_11_2333
+    occupation_11_1929, occupation_12_1929, occupation_13_1929, occupation_14_1929, occupation_11_2333, occupation_11_1929_2
     ]
 
 # Check if any DataFrame failed to load
@@ -105,7 +106,7 @@ def process_and_clean_data():
     skills_65_2333 = load_table_to_dataframe(file_path4, "Table 6.5", header_row=1, num_rows=833)
 
     # Process and clean data
-    #occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
+    occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     title_labels_dict = occupation_11_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
     occupation_12_1929['lables'] = occupation_12_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     occupation_13_1929['lables'] = occupation_13_1929['2019 National Employment Matrix code'].str.split('-').str[0]
@@ -124,6 +125,7 @@ def process_and_clean_data():
 
     
     occupation_11_1929.drop(index=0,inplace=True)
+    occupation_11_1929_2.drop(index=0,inplace=True)
     occupation_12_1929.drop(index=0,inplace=True)
     occupation_13_1929.drop(index=0,inplace=True)
     occupation_14_1929.drop(index=0,inplace=True)
@@ -243,6 +245,7 @@ def process_and_clean_data():
         "skills_63_2333":skills_63_2333,
         "skills_64_2333":skills_64_2333,
         "skills_65_2333":skills_65_2333,
+        "occupation_11_1929_2":occupation_11_1929_2,
 
     }
 

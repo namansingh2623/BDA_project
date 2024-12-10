@@ -6,8 +6,10 @@ import dataprocessing as dp
 
 dataframes = dp.process_and_clean_data()
 
-pre_occup_df = dataframes['occupation_11_1929']
+pre_occup_df = dataframes['occupation_11_1929_2']
 post_occup_df = dataframes['occupation_11_2333']
+
+print("Columns in post_occup_df:", post_occup_df.columns)
 
 def create_dropdown_layout(pre_occup_df):
     """
@@ -42,8 +44,26 @@ def register_dropdown_callbacks(app, pre_occup_df, post_occup_df):
     )
     def update_graph(selected_occupation):
         # Filter data for the selected occupation
+        
+        
+        pre_occup_df["2019 National Employment Matrix title"] = pre_occup_df["2019 National Employment Matrix title"].str.strip().str.lower()
+        post_occup_df["2023 National Employment Matrix title"] = post_occup_df["2023 National Employment Matrix title"].str.strip().str.lower()
+        selected_occupation = selected_occupation.strip().lower()
+        
+        # print("Selected Occupation:", selected_occupation)
+        # filtered_post_occup = post_occup_df[post_occup_df["2023 National Employment Matrix title"] == selected_occupation]
+        # print("Filtered 2023 Data:", filtered_post_occup)
+
+        
         wage_2019 = pre_occup_df[pre_occup_df["2019 National Employment Matrix title"] == selected_occupation]["Median annual wage, 2020(1)"].values
-        wage_2023 = post_occup_df[post_occup_df["2023 National Employment Matrix title"] == selected_occupation]["Median annual wage, 2023[1]"].values
+        wage_2023 = post_occup_df[post_occup_df["2023 National Employment Matrix title"] == selected_occupation]["Median annual wage, dollars, 2023[1]"].values
+        
+        # print("Wage 2019:", wage_2019)
+        # print("Wage 2023:", wage_2023)
+        
+        # print("Unique titles in pre_occup_df:", len(pre_occup_df["2019 National Employment Matrix title"].unique()))
+        # print("Unique titles in post_occup_df:", len(post_occup_df["2023 National Employment Matrix title"].unique()))
+
 
         fig = go.Figure()
 
