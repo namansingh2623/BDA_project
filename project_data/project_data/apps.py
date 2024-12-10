@@ -63,6 +63,12 @@ except Exception as e:
     fastest_growing_occupations_fig = placeholder_graph("Fastest Growing Occupations Graph Not Found")
     print(f"Error generating fastest growing occupations graph: {e}")
 
+try:
+    median_wage_by_degree_fig = pf.median_wage_by_degree(dataframes)
+except Exception as e:
+    median_wage_by_degree_fig = placeholder_graph("median_wage_by_degree_fig Graph Not Found")
+    print(f"Error generating median_wage_by_degree_fig graph: {e}")
+
 # Intro and markdown texts
 intro_md = '''
 # Employment and Career Insights Project
@@ -217,7 +223,7 @@ html.Div(style={'height': '35px'}),
     html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
 
 
-        dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
+        dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance-graph', style={'width': '80%', 'margin': 'auto'}),
 
 
     # Dropdown for Label selection
