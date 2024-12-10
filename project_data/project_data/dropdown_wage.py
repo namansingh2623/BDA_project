@@ -9,8 +9,6 @@ dataframes = dp.process_and_clean_data()
 pre_occup_df = dataframes['occupation_11_1929_2']
 post_occup_df = dataframes['occupation_11_2333']
 
-print("Columns in post_occup_df:", post_occup_df.columns)
-
 def create_dropdown_layout(pre_occup_df):
     """
     Returns the layout for the dropdown and bar graph.
