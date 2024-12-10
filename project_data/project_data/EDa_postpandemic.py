@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from dataprocessing import process_and_clean_data
 
+# Addeding comments 
+
+
 def load_data():
     """
     Load and process data using the `process_and_clean_data` function.
