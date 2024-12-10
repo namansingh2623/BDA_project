@@ -213,7 +213,12 @@ html.Div(style={'height': '35px'}),
         dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
     html.Div([
+
     html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
+
+
+        dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
+
 
     # Dropdown for Label selection
     html.Div([
