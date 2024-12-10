@@ -3,6 +3,8 @@ import dash_bootstrap_components as dbc
 import dataprocessing as dp
 import ProjectFileGroup4 as pf
 import plotly.graph_objects as go
+import dropdown_wage as dom
+
 
 
 # Function to generate placeholder graph
@@ -108,6 +110,9 @@ graph3_md='''
 pre_covid_df = dataframes['education_53_1929']
 post_covid_df = dataframes['education_53_2333']
 
+pre_occup_df = dataframes['occupation_11_1929']
+post_occup_df = dataframes['occupation_11_2333']
+
 # Define column names for education levels
 education_levels = pre_covid_df.columns[2:9]
 
@@ -212,10 +217,12 @@ app.layout = html.Div([
         dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
+    dom.create_dropdown_layout(pre_occup_df)
 
 
 ])
 
+dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df)
 
 @app.callback(
     Output('profession-selector', 'options'),

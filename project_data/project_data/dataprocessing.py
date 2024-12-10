@@ -29,11 +29,11 @@ def process_and_clean_data():
     # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
     # LISA PATHS: 
-    # file_path = "Datasets/2019-29/education.xlsx"
-    # file_path2 = "Datasets/2023-33/education.xlsx"
-    # file_path3 = "Datasets/2019-29/occupation.xlsx"
-    # file_path4 = "Datasets/2023-33/skills.xlsx"
-    # file_path5 = "Datasets/2023-33/occupation.xlsx"
+    file_path = "Datasets/2019-29/education.xlsx"
+    file_path2 = "Datasets/2023-33/education.xlsx"
+    file_path3 = "Datasets/2019-29/occupation.xlsx"
+    file_path4 = "Datasets/2023-33/skills.xlsx"
+    file_path5 = "Datasets/2023-33/occupation.xlsx"
     
 
     # DAN PATHS
@@ -105,7 +105,7 @@ def process_and_clean_data():
     skills_65_2333 = load_table_to_dataframe(file_path4, "Table 6.5", header_row=1, num_rows=833)
 
     # Process and clean data
-    occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
+    #occupation_11_1929['lables'] = occupation_11_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     title_labels_dict = occupation_11_1929.set_index('lables')['2019 National Employment Matrix title'].to_dict()
     occupation_12_1929['lables'] = occupation_12_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     occupation_13_1929['lables'] = occupation_13_1929['2019 National Employment Matrix code'].str.split('-').str[0]
@@ -113,8 +113,8 @@ def process_and_clean_data():
     occupation_13_2333['lables'] = occupation_13_2333['2023 National Employment Matrix code'].str.split('-').str[0]
     occupation_14_2333['lables'] = occupation_14_2333['2023 National Employment Matrix code'].str.split('-').str[0]
 
-    occupation_11_2333['lables'] = occupation_11_2333['2023 National Employment Matrix title'].str.spli('-').str[0]
-    title_labels_dict_occ11_2333 = occupation_11_1929.set_index('lables')['2023 National Employment Matrix title'].to_dict()
+    #occupation_11_2333['lables'] = occupation_11_2333['2023 National Employment Matrix title'].str.split('-').str[0]
+    #title_labels_dict_occ11_2333 = occupation_11_1929.set_index('lables')['2023 National Employment Matrix title'].to_dict()
     occupation_15_1929['lables'] = occupation_15_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     occupation_16_1929['lables'] = occupation_15_1929['2019 National Employment Matrix code'].str.split('-').str[0]
     occupation_15_2333['lables'] = occupation_15_2333['2023 National Employment Matrix code'].str.split('-').str[0]
@@ -201,13 +201,14 @@ def process_and_clean_data():
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
 
+
     # #"BDA_project/project_data/project_data/"
     # national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
     # national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
     
     # #"BDA_project/project_data/project_data/"
-    # national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
-    # national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
+    national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
       
 
     # Return all DataFrames in a dictionary
@@ -235,7 +236,6 @@ def process_and_clean_data():
         "occupation_16_2333": occupation_16_2333,
         "occupation_15_16_2333":occupation_15_16_2333, 
         "title_labels_dict": title_labels_dict,
-        "title_labels_dict_occ11_2333":title_labels_dict_occ11_2333,
         "oesm_national_M2019_dl_19":national_M2019_dl,
         "oesm_national_M2023_dl_23":national_M2023_dl,
         "skills_61_2333":skills_61_2333,
@@ -245,3 +245,4 @@ def process_and_clean_data():
         "skills_65_2333":skills_65_2333,
 
     }
+
