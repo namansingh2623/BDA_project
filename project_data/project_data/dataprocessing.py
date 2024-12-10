@@ -46,10 +46,9 @@ def process_and_clean_data():
     # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
     # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
     # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
-    print("FIle Paths==>",file_path, file_path2, file_path3, file_path4)
+    # print("FIle Paths==>",file_path, file_path2, file_path3, file_path4)
     def load_table_to_dataframe(file_path, sheet_name, header_row, num_rows):
         try:
-            print(file_path)
             return pd.read_excel(file_path, sheet_name=sheet_name, header=header_row, nrows=num_rows)
         except Exception as e:
             print(f"Error while loading the table from {sheet_name}: {e}")
