@@ -44,3 +44,17 @@ Use this consistent nomenclature for easy identification and management of datas
 ```python
 # Example of loading a DataFrame
 education_52_1929 = load_table_to_dataframe(file_path, "Table 5.2", header_row=1, num_rows=9)
+```
+
+
+# MORE QUERIES: 
+1: Lisa: Work on Wage. 
+    - Give understanding of Meadian wage for selcted Profession
+
+2: Naman: Work on Skills. Improve on Dan code with Dropdown
+
+3: Danial: Occupation 1.12 2023. He will work on providing analysis and Reasoning of 
+why there is a Incline or Decline in Professions and Employment in perticular Sector.
+Maybe add Dropdown and filter data based on Selection
+
+4: 
