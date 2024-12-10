@@ -659,3 +659,84 @@ def median_wage_by_degree(dataframes):
         yaxis=dict(tickfont=dict(size=12)),
     )
     return fig
+
+#Dan Function working on occupation Factors affecting occupational utilization table 1.12 occupation 
+def get_factors_utilization(dataframes, occupation_title, industry_title):
+    """
+    Retrieves the factors affecting occupational utilization based on the selected
+    occupation title and industry title.
+
+    Parameters:
+        dataframes (dict): Dictionary of all processed dataframes.
+        occupation_title (str): The selected occupation title to filter.
+        industry_title (str): The selected industry title to filter.
+
+    Returns:
+        str: A formatted string of the factors affecting utilization.
+    """
+    # Access the relevant DataFrame
+    occupation_112_2333 = dataframes["occupation_112_2333"]
+
+    # Filter the DataFrame based on the provided occupation and industry titles
+    filtered_df = occupation_112_2333[
+        (occupation_112_2333["2023 National Employment Matrix occupation title"] == occupation_title) &
+        (occupation_112_2333["2023 National Employment Matrix industry title"] == industry_title)
+    ]
+
+    # Check if any data matches the filters
+    if filtered_df.empty:
+        return f"No factors found for occupation: {occupation_title} and industry: {industry_title}"
+    else:
+        # Format the factors into a readable string
+        factors = "\n".join(filtered_df["Factors affecting occupational utilization"].unique())
+        return f"Factors affecting utilization for {occupation_title} in {industry_title}:\n\n{factors}"
+    
+def get_factors_and_employment_change(dataframes, occupation_title, industry_title):
+    """
+    Fetches factors affecting occupational utilization and employment change percent
+    for the given occupation title and industry title.
+
+    Parameters:
+    - dataframes: Dictionary containing the dataframes.
+    - occupation_title: Selected occupation title.
+    - industry_title: Selected industry title.
+
+    Returns:
+    - A string summarizing the factors and employment change percent.
+    """
+    # Rename columns to align the merge keys
+    occupation_112_2333 = dataframes["occupation_112_2333"].rename(
+        columns={"2023 National Employment Matrix occupation code": "2023 National Employment Matrix code"}
+    )
+    occupation_110_2333 = dataframes["occupation_110_2333"]
+
+    # Merge dataframes on the shared key
+    joined_df = pd.merge(
+        occupation_112_2333,
+        occupation_110_2333,
+        on="2023 National Employment Matrix code",
+        how="inner"
+    )
+
+    # Filter for the selected occupation and industry
+    filtered_df = joined_df[
+        (joined_df["2023 National Employment Matrix occupation title"] == occupation_title) &
+        (joined_df["2023 National Employment Matrix industry title"] == industry_title)
+    ]
+
+    if filtered_df.empty:
+        return f"No data available for {occupation_title} in {industry_title}."
+
+    # Extract the factors and employment change
+    factors = filtered_df["Factors affecting occupational utilization"].unique()
+    employment_change = filtered_df["Employment change, percent, 2023–33"].iloc[0]
+
+    # Construct the result string
+    result = (
+        f"Projected employment rate change: {employment_change}%\n\n"
+        f"Factors affecting utilization for {occupation_title} in {industry_title}:\n"
+        + "\n".join(f"- {factor}" for factor in factors)
+    )
+
+    return result
+

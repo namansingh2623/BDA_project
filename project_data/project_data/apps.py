@@ -4,7 +4,6 @@ import dataprocessing as dp
 import ProjectFileGroup4 as pf
 import plotly.graph_objects as go
 
-
 # Function to generate placeholder graph
 def placeholder_graph(message="Graph not found"):
     return go.Figure().add_annotation(
@@ -13,7 +12,6 @@ def placeholder_graph(message="Graph not found"):
         x=0.5, y=0.5, showarrow=False,
         font=dict(size=20, color="red")
     )
-
 
 # Process and clean data
 try:
@@ -65,12 +63,6 @@ except Exception as e:
     fastest_growing_occupations_fig = placeholder_graph("Fastest Growing Occupations Graph Not Found")
     print(f"Error generating fastest growing occupations graph: {e}")
 
-try:
-    median_wage_by_degree_fig = pf.median_wage_by_degree(dataframes)
-except Exception as e:
-    median_wage_by_degree_fig = placeholder_graph("median_wage_by_degree_fig Graph Not Found")
-    print(f"Error generating median_wage_by_degree_fig: {e}")
-
 # Intro and markdown texts
 intro_md = '''
 # Employment and Career Insights Project
@@ -101,16 +93,6 @@ graph2_md = '''
 - Low-wage jobs focus on **customer service** and **manual skills**.
 - Core skills like adaptability and problem-solving are essential for all jobs.
 '''
-
-
-graph3_md='''
-###  Insights:
-- Adjacent education levels (e.g., "High school diploma" and "Some college, no degree") tend to correlate positively, reflecting the natural progression of education.
-- Higher education levels (e.g., "Bachelor's degree," "Master's degree," "Doctoral degree") tend to show moderate positive correlations with each other, likely representing professions that value advanced education.
-- Lower levels (e.g., "High school diploma" and "Some college, no degree") also correlate positively, reflecting professions requiring less formal education.
-'''
-
-
 pre_covid_df = dataframes['education_53_1929']
 post_covid_df = dataframes['education_53_2333']
 
@@ -122,110 +104,143 @@ labels = pre_covid_df['Title Labels'].unique().tolist()
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+
+
+
 app.layout = html.Div([
     html.Div([
         html.H1(children='Employment and Career Insights Project', style={'textAlign': 'center'}),
         dcc.Markdown(children=intro_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
 
-    # Employment Distribution by Education Level
-    html.Div([
-        html.H1(children='Employment Distribution by Education Level',
-                style={'textAlign': 'center', 'margin-top': '70px'}),
-        dcc.Graph(figure=employment_dist, id='employment-dist', style={'width': '80%', 'margin': 'auto'}),
-        dcc.Markdown(children=graph1_md, style={'width': '80%', 'margin': 'auto'}),
-    ]),
-    
     # Correlation Heatmap
     html.Div([
-        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center', 'margin-top': '70px'}),
+        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center','margin-top':'70px'}),
         dcc.Graph(figure=correlation_heatmap, id='correlation-heatmap', style={'width': '60%', 'margin': 'auto'}),
-        dcc.Markdown(children=graph3_md, style={'width': '80%', 'margin': 'auto'}),
+    ]),
+
+    # Employment Distribution by Education Level
+    html.Div([
+        html.H1(children='Employment Distribution by Education Level', style={'textAlign': 'center','margin-top':'70px'}),
+        dcc.Graph(figure=employment_dist, id='employment-dist', style={'width': '80%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph1_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
 
     # Employment Prediction Change by Education Level
     html.Div([
-        html.H1(children='Employment Prediction Change by Education Level (1929-2033)',
-                style={'textAlign': 'center', 'margin-top': '70px'}),
+        html.H1(children='Employment Prediction Change by Education Level (1929-2033)', style={'textAlign': 'center','margin-top':'70px'}),
         dcc.Graph(figure=emp_pred_change, id='emp-pred-change', style={'width': '80%', 'margin': 'auto'}),
-    ]),
-    html.Div([
-        html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
-
-        # Dropdown for Label selection
-        html.Div([
-            html.Label("Select Label"),
-            dcc.Dropdown(
-                id='label-selector',
-                options=[{'label': label, 'value': label} for label in labels],
-                value=labels[0]
-            )
-        ], style={'width': '30%', 'margin': 'auto', 'padding': '10px'}),
-
-        # Dropdown for Profession selection
-        html.Div([
-            html.Label("Select Profession"),
-            dcc.Dropdown(id='profession-selector', options=[], value=None)
-        ], style={'width': '60%', 'margin': 'auto', 'padding': '10px'}),
-
-        # Graph
-        dcc.Graph(id='employment-distribution-graph')
     ]),
     # Fastest Growing Occupations
     html.Div([
-        html.H1(children='Fastest Growing Occupations', style={'textAlign': 'center', 'margin-top': '30px'}),
-        dcc.Graph(figure=fastest_growing_occupations_fig, id='fastest-growing-occupations',
-                  style={'width': '80%', 'margin': 'auto'}),
+        html.H1(children='Fastest Growing Occupations', style={'textAlign': 'center','margin-top':'30px'}),
+        dcc.Graph(figure=fastest_growing_occupations_fig, id='fastest-growing-occupations', style={'width': '80%', 'margin': 'auto'}),
     ]),
     # # Skill Importance in High-Wage vs Low-Wage Jobs
     html.Div([
         dbc.Row(
-            [
-                dbc.Col(
-                    html.Div([
-                        html.H2(
-                            "Maximum Occupation Decline Trend as Predicted in 2033",
-                            style={'textAlign': 'center', 'margin-top': '30px'}
-                        ),
-                        dcc.Graph(
-                            figure=max_predicted_decline_occupations_fig,
-                            id='max_occupation_decline',
-                            style={'margin': 'auto'}
-                        ),
-                    ]),
-                    width=6  # Use half the row's width
-                ),
-                dbc.Col(
-                    html.Div([
-                        html.H2(
-                            "Minimum Occupation Decline Trend as Predicted in 2033",
-                            style={'textAlign': 'center', 'margin-top': '30px'}
-                        ),
-                        dcc.Graph(
-                            figure=min_predicted_decline_occupations_fig,
-                            id='min_occupation_decline',
-                            style={'margin': 'auto'}
-                        ),
-                    ]),
-                    width=6  # Use half the row's width
-                ),
-            ],
-            justify="center",  # Align the columns in the center
-            style={'margin-top': '30px'}
-        )
+        [
+            dbc.Col(
+                html.Div([
+                    html.H2(
+                        "Maximum Occupation Decline Trend as Predicted in 2033",
+                        style={'textAlign': 'center', 'margin-top': '30px'}
+                    ),
+                    dcc.Graph(
+                        figure=max_predicted_decline_occupations_fig,
+                        id='max_occupation_decline',
+                        style={'margin': 'auto'}
+                    ),
+                ]),
+                width=6  # Use half the row's width
+            ),
+            dbc.Col(
+                html.Div([
+                    html.H2(
+                        "Minimum Occupation Decline Trend as Predicted in 2033",
+                        style={'textAlign': 'center', 'margin-top': '30px'}
+                    ),
+                    dcc.Graph(
+                        figure=min_predicted_decline_occupations_fig,
+                        id='min_occupation_decline',
+                        style={'margin': 'auto'}
+                    ),
+                ]),
+                width=6  # Use half the row's width
+            ),
+        ],
+        justify="center",  # Align the columns in the center
+        style={'margin-top': '30px'}
+    )
+]),
+html.Div(style={'height': '35px'}),
+
+    #Section for Factors Affecting Occupational Utilization**
+    html.Div([
+        html.H1("Factors Affecting Occupational Utilization", style={'textAlign': 'center', 'margin-top': '50px'}),
+        
+        # Dropdown for Occupation Selection
+        html.Div([
+            html.Label("Select Occupation"),
+            dcc.Dropdown(
+                id='occupation-title-selector',
+                options=[{'label': title, 'value': title} for title in 
+                        dataframes["occupation_112_2333"]["2023 National Employment Matrix occupation title"].unique()],
+                value=None,
+                placeholder="Select an Occupation"
+            )
+        ], style={'width': '50%', 'margin': 'auto', 'padding': '10px'}),
+
+        # Dropdown for Industry Selection
+        html.Div([
+            html.Label("Select Industry"),
+            dcc.Dropdown(
+                id='industry-title-selector',
+                options=[],
+                value=None,
+                placeholder="Select an Industry"
+            )
+        ], style={'width': '50%', 'margin': 'auto', 'padding': '10px'}),
+
+        # Display Area for Factors
+        html.Div(id='factors-display', style={'width': '80%', 'margin': 'auto', 'padding': '20px', 'textAlign': 'center', 'fontSize': '16px'})
     ]),
+    html.Div(style={'height': '75px'}),
+    #end of factors section
+
     html.Div([
         dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
-
     html.Div([
+
+    html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
+
 
         dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
 
+
+    # Dropdown for Label selection
+    html.Div([
+        html.Label("Select Label"),
+        dcc.Dropdown(
+            id='label-selector',
+            options=[{'label': label, 'value': label} for label in labels],
+            value=labels[0]
+        )
+    ], style={'width': '30%', 'margin': 'auto', 'padding': '10px'}),
+
+    # Dropdown for Profession selection
+    html.Div([
+        html.Label("Select Profession"),
+        dcc.Dropdown(id='profession-selector', options=[], value=None)
+    ], style={'width': '60%', 'margin': 'auto', 'padding': '10px'}),
+
+    # Graph
+    dcc.Graph(id='employment-distribution-graph')
     ]),
-
-
+    
+    html.Div(style={'height': '300px'}) #leave this at the bottom, add any sections above this
 ])
 
 @app.callback(
@@ -299,6 +314,44 @@ def update_graph(selected_label, selected_profession):
         )
 
     return fig
+# Callback to update industries based on selected occupation
+@app.callback(
+    Output('industry-title-selector', 'options'),
+    Output('industry-title-selector', 'value'),
+    Input('occupation-title-selector', 'value')
+)
+def update_industry_selector(selected_occupation):
+    if not selected_occupation:
+        return [], None
+
+    filtered_df = dataframes["occupation_112_2333"][
+        dataframes["occupation_112_2333"]["2023 National Employment Matrix occupation title"] == selected_occupation
+    ]
+    industries = filtered_df["2023 National Employment Matrix industry title"].unique()
+    options = [{'label': industry, 'value': industry} for industry in industries]
+    return options, None
+# Callback to display factors affecting occupational utilization
+@app.callback(
+    Output('factors-display', 'children'),
+    Input('occupation-title-selector', 'value'),
+    Input('industry-title-selector', 'value')
+)
+def display_factors_and_employment_change(selected_occupation, selected_industry):
+    if not selected_occupation or not selected_industry:
+        return "Please select both an occupation and an industry to view the factors and employment change."
+
+    # Call the function from the functions file
+    try:
+        result = pf.get_factors_and_employment_change(
+            dataframes, selected_occupation, selected_industry
+        )
+    except Exception as e:
+        return f"Error: {e}"
+
+    return html.Div([
+        html.Pre(result, style={'whiteSpace': 'pre-wrap', 'textAlign': 'left'})
+    ])
+
 
 
 if __name__ == '__main__':
