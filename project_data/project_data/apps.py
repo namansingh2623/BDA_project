@@ -220,13 +220,13 @@ app.layout = html.Div([
     ]),
 
     html.Div([
+
         dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
 
     ]),
 
 
 ])
-
 
 @app.callback(
     Output('profession-selector', 'options'),
