@@ -197,7 +197,6 @@ def process_and_clean_data():
         '2023 National Employment Matrix title'
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
-
     # #"BDA_project/project_data/project_data/"
     # national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
     # national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
@@ -205,7 +204,12 @@ def process_and_clean_data():
     # #"BDA_project/project_data/project_data/"
     national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
     national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
-      
+
+    skills_61_2333['lables'] = skills_61_2333['2023 National Employment Matrix code'].str.split('-').str[0]
+    title_labels_dict_skills = skills_61_2333.set_index('lables')['2023 National Employment Matrix title'].to_dict()
+    skills_61_2333['Title Labels'] = skills_61_2333['lables'].map(title_labels_dict_skills)
+    skills_62_2333['lables'] = skills_62_2333['2023 National Employment Matrix code'].str.split('-').str[0]
+    skills_62_2333['Title Labels'] = skills_62_2333['lables'].map(title_labels_dict_skills)
 
     # Return all DataFrames in a dictionary
     return {
