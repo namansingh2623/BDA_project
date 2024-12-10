@@ -168,3 +168,6 @@ def education_distribution_by_degree(dataframes):
         yaxis=dict(tickfont=dict(size=12)),
     )
     return fig
+
+
+# Adding comment  to check if I can merge or not 
