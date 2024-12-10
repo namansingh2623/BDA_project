@@ -607,3 +607,55 @@ def education_distribution_by_degree(dataframes):
     return fig
 
 
+def median_wage_by_degree(dataframes):
+    # Extract relevant DataFrames
+    education_52_1929 = dataframes['education_52_1929']
+    education_52_2333 = dataframes['education_52_2333']
+
+    # Strip whitespace from column headers
+    education_52_1929.columns = education_52_1929.columns.str.strip()
+    education_52_2333.columns = education_52_2333.columns.str.strip()
+
+    # Extract data for the plot
+    education_levels = education_52_2333['Typical entry-level education']
+    median_wage_2019 = pd.to_numeric(education_52_1929['Median annual wage, 2020(1)'], errors='coerce')
+    median_wage_2023 = pd.to_numeric(education_52_2333['Median annual wage, dollars, 2023[1]'], errors='coerce')
+
+    # Create a grouped horizontal bar chart
+    fig = go.Figure()
+
+    # Add bars for 2019
+    fig.add_trace(
+        go.Bar(
+            y=education_levels,
+            x=median_wage_2019,
+            name='Pre-Pandemic (2019)',
+            orientation='h',
+            marker=dict(color='blue', line=dict(color='black', width=1))
+        )
+    )
+
+    # Add bars for 2023
+    fig.add_trace(
+        go.Bar(
+            y=education_levels,
+            x=median_wage_2023,
+            name='Post-Pandemic (2023)',
+            orientation='h',
+            marker=dict(color='purple', line=dict(color='black', width=1))
+        )
+    )
+
+    # Update layout
+    fig.update_layout(
+        title='Median Annual Wage by Education Level: 2019 vs 2023',
+        xaxis_title='Median Annual Wage (USD)',
+        yaxis_title='Education Levels',
+        barmode='group',  # Group bars side by side
+        template='plotly_white',
+        legend_title='Period',
+        title_font=dict(size=16),
+        xaxis=dict(tickformat='.2f'),
+        yaxis=dict(tickfont=dict(size=12)),
+    )
+    return fig
