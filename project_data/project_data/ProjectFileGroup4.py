@@ -14,7 +14,8 @@ dataframes = dp.process_and_clean_data()
 
 # Access a specific DataFrame
 education_53_2333 = dataframes["education_53_2333"]
-print(education_53_2333)
+
+
 
 
 
@@ -244,22 +245,22 @@ def skill_importance_high_vs_low(dataframes):
     )
 
     # Debugging: Check unique values and distribution
-    print("Unique values in wage column:")
-    print(dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'].unique())
-    print("Wage column statistics:")
-    print(dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'].describe())
+    # print("Unique values in wage column:")
+    # print(dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'].unique())
+    # print("Wage column statistics:")
+    # print(dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'].describe())
 
     # Filter for high-wage and low-wage occupations
     high_wage = dataframes['skills_62_2333'][dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'] > 90000]
     low_wage = dataframes['skills_62_2333'][dataframes['skills_62_2333']['Median annual wage, dollars, 2023[1]'] < 60000]
 
     # Debugging: Check filtered data
-    print(f"High-wage occupations count: {high_wage.shape[0]}")
-    print(f"Low-wage occupations count: {low_wage.shape[0]}")
+    # print(f"High-wage occupations count: {high_wage.shape[0]}")
+    # print(f"Low-wage occupations count: {low_wage.shape[0]}")
 
     # If no data for either category, return an empty figure
     if high_wage.empty or low_wage.empty:
-        print("Warning: No data available for high-wage or low-wage occupations.")
+        # print("Warning: No data available for high-wage or low-wage occupations.")
         return px.line_polar(title="Skill Importance for High-Wage vs Low-Wage Occupations (No Data)")
 
     # Calculate average skill ratings for each wage group
