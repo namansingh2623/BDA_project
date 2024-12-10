@@ -95,6 +95,16 @@ graph2_md = '''
 - Low-wage jobs focus on **customer service** and **manual skills**.
 - Core skills like adaptability and problem-solving are essential for all jobs.
 '''
+
+
+graph3_md='''
+###  Insights:
+- Adjacent education levels (e.g., "High school diploma" and "Some college, no degree") tend to correlate positively, reflecting the natural progression of education.
+- Higher education levels (e.g., "Bachelor's degree," "Master's degree," "Doctoral degree") tend to show moderate positive correlations with each other, likely representing professions that value advanced education.
+- Lower levels (e.g., "High school diploma" and "Some college, no degree") also correlate positively, reflecting professions requiring less formal education.
+'''
+
+
 pre_covid_df = dataframes['education_53_1929']
 post_covid_df = dataframes['education_53_2333']
 
@@ -112,18 +122,19 @@ app.layout = html.Div([
         dcc.Markdown(children=intro_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
 
-    # Correlation Heatmap
-    html.Div([
-        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center', 'margin-top': '70px'}),
-        dcc.Graph(figure=correlation_heatmap, id='correlation-heatmap', style={'width': '60%', 'margin': 'auto'}),
-    ]),
-
     # Employment Distribution by Education Level
     html.Div([
         html.H1(children='Employment Distribution by Education Level',
                 style={'textAlign': 'center', 'margin-top': '70px'}),
         dcc.Graph(figure=employment_dist, id='employment-dist', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph1_md, style={'width': '80%', 'margin': 'auto'}),
+    ]),
+    
+    # Correlation Heatmap
+    html.Div([
+        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center', 'margin-top': '70px'}),
+        dcc.Graph(figure=correlation_heatmap, id='correlation-heatmap', style={'width': '60%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph3_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
 
     # Employment Prediction Change by Education Level

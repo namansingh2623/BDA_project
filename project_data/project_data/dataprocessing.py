@@ -15,13 +15,13 @@ def process_and_clean_data():
 
 
     #Naman Paths
-    "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
-    file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
-    file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
-    file_path4 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/skills.xlsx"
-    file_path5 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/occupation.xlsx"
+    # "BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
+    # file_path2 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/education.xlsx"
+    # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
+    # file_path4 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/skills.xlsx"
+    # file_path5 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2023-33/occupation.xlsx"
 
     # Malavs Paths
     # file_path = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/education.xlsx"
@@ -29,11 +29,11 @@ def process_and_clean_data():
     # file_path3 = "/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/2019-29/occupation.xlsx"
 
     # LISA PATHS: 
-    # file_path = "Datasets/2019-29/education.xlsx"
-    # file_path2 = "Datasets/2023-33/education.xlsx"
-    # file_path3 = "Datasets/2019-29/occupation.xlsx"
-    #file_path4 = "Datasets/2023-33/skills.xlsx"
-    #file_path5 = "Datasets/2023-33/occupation.xlsx"
+    file_path = "Datasets/2019-29/education.xlsx"
+    file_path2 = "Datasets/2023-33/education.xlsx"
+    file_path3 = "Datasets/2019-29/occupation.xlsx"
+    file_path4 = "Datasets/2023-33/skills.xlsx"
+    file_path5 = "Datasets/2023-33/occupation.xlsx"
     
 
     # DAN PATHS
@@ -198,13 +198,13 @@ def process_and_clean_data():
     ].str.replace(r'\[.*?\]', '', regex=True).str.strip()
 
 
-    #"BDA_project/project_data/project_data/"
-    national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
-    national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
+    # #"BDA_project/project_data/project_data/"
+    # national_M2019_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm19nat/national_M2019_dl.xlsx")
+    # national_M2023_dl = pd.read_excel("/Users/naman/Desktop/SEM-3 PDFS/BDA_PROJECT/BDA_project/project_data/project_data/Datasets/oesm23nat/national_M2023_dl.xlsx")
     
     # #"BDA_project/project_data/project_data/"
-    # national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
-    # national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
+    national_M2019_dl = pd.read_excel("Datasets/oesm19nat/national_M2019_dl.xlsx")
+    national_M2023_dl = pd.read_excel("Datasets/oesm23nat/national_M2023_dl.xlsx")
       
 
     # Return all DataFrames in a dictionary
