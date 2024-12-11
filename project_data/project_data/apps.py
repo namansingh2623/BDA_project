@@ -71,20 +71,41 @@ except Exception as e:
 
 # Intro and markdown texts
 intro_md = '''
-# Employment and Career Insights Project
+- In this project we tend to analyise what kind of profession is required for the students in the future. 
+- As per a research, there are people who do not have a clear perspective of what they want to do in the future and what is their carrer path. 
+- We plan to analyse the data from the job market before and post pandemic and to help students get a better understand of what kind of proffesion they can pursue and what skill are required for them excel in that profession.
 
-This project analyzes job market trends before and after the pandemic, offering insights into education requirements, skill importance, and professions projected to grow or decline. The aim is to help students make informed career decisions by understanding industry demands.
 
-### Key Objectives:
-- Analyze job market trends between 2019 and 2023.
-- Identify the fastest and slowest growing occupations.
-- Understand the skills required for high-wage and low-wage jobs.
-- Compare employment distribution by education level.
+For instance as per these research, 
+# Career Aspirations of Students Aged 18 or Below
+
+Understanding how many young individuals know what they want to do when they grow up varies across surveys and studies. Here are some key findings:
+
+## Key Statistics
+
+- **Junior Achievement and EY Survey (2017)**:  
+  This survey of 1,000 teenagers aged 13 to 17 found that **91% believed they knew the career they wanted to pursue**.  
+  [Source: Payscale](https://www.payscale.com/career-advice/teenager-career-choice-91-percent-teens-think-know-career-want/?utm_source=chatgpt.com)
+
+- **ECMC Group Study (2022)**:  
+  In a study involving high school students:
+  - **75% reported having a specific career in mind.**
+  - **74% felt it was important to have their career plans determined by the time they graduated high school.**  
+  [Source: The Journal](https://thejournal.com/articles/2022/05/19/national-study-high-schoolers-eyeing-career-and-workforce-landscape-when-deciding-their-futures.aspx?utm_source=chatgpt.com)
+
+- **OECD PISA 2022 Findings**:  
+  The Programme for International Student Assessment (PISA) 2022 reported:
+  - **Two in five 15-year-old students across OECD countries lacked clear career plans.**  
+  [Source: OECD iLibrary](https://www.oecd-ilibrary.org/education/teenage-career-uncertainty_e89c3da9-en?utm_source=chatgpt.com)
+
+## Summary
+While a significant majority of teenagers express confidence in their career aspirations, a substantial portion remain uncertain. These findings underscore the importance of career guidance and exploration programs to help young individuals make informed decisions about their futures.
+
+
+With our project we plan on creating a 360 degree view of the job market and the skills required for the students to excel in that profession along with the education that is required and the trend of the education and the job market till 2033. 
 '''
 
 graph1_md = '''
-# Employment Distribution by Education Level (2019 vs 2023)
-
 ### Insights:
 1. **High school diploma or equivalent** has the highest employment distribution.
 2. Specialized degrees (Bachelor's, Master's) are critical for high-paying roles.
@@ -120,33 +141,56 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.layout = html.Div([
     html.Div([
         html.H1(children='Employment and Career Insights Project', style={'textAlign': 'center'}),
-        dcc.Markdown(children=intro_md, style={'width': '80%', 'margin': 'auto'}),
+        dcc.Markdown(children=intro_md, style={'width': '80%'}),
     ]),
-
     # Correlation Heatmap
     html.Div([
-        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center','margin-top':'70px'}),
+
+        html.H1(children='Heatmap of Education Level', style={'textAlign': 'center'}),
         dcc.Graph(figure=correlation_heatmap, id='correlation-heatmap', style={'width': '60%', 'margin': 'auto'}),
     ]),
+    html.Div([
+        html.H2("Lets see what Degree does most Employees ", style={'textAlign': 'center','margin-top':'70px'}),
+        html.H2("have who are working in this profession", style={'textAlign': 'center','margin-top':'20px'}),
+        # Dropdown for Label selection
+        html.Div([
+            html.Label("Select Label"),
+            dcc.Dropdown(
+                id='label-selector',
+                options=[{'label': label, 'value': label} for label in labels],
+                value=labels[0]
+            )
+        ], style={'width': '30%', 'margin': 'auto', 'padding': '10px'}),
 
+        # Dropdown for Profession selection
+        html.Div([
+            html.Label("Select Profession"),
+            dcc.Dropdown(id='profession-selector', options=[], value=None)
+        ], style={'width': '60%', 'margin': 'auto', 'padding': '10px'}),
+
+        # Graph
+        dcc.Graph(id='employment-distribution-graph')
+    ]),
     # Employment Distribution by Education Level
     html.Div([
-        html.H1(children='Employment Distribution by Education Level', style={'textAlign': 'center','margin-top':'70px'}),
+        html.H1(children='# Employment Distribution by Education Level (2019 vs 2023)', style={'textAlign': 'center','margin-top':'70px'}),
         dcc.Graph(figure=employment_dist, id='employment-dist', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph1_md, style={'width': '80%', 'margin': 'auto'}),
     ]),
-
     # Employment Prediction Change by Education Level
     html.Div([
         html.H1(children='Employment Prediction Change by Education Level (1929-2033)', style={'textAlign': 'center','margin-top':'70px'}),
         dcc.Graph(figure=emp_pred_change, id='emp-pred-change', style={'width': '80%', 'margin': 'auto'}),
     ]),
+
     # Fastest Growing Occupations
+    html.Div(style={'height': '200px'}),
     html.Div([
         html.H1(children='Fastest Growing Occupations', style={'textAlign': 'center','margin-top':'30px'}),
         dcc.Graph(figure=fastest_growing_occupations_fig, id='fastest-growing-occupations', style={'width': '80%', 'margin': 'auto'}),
     ]),
-    # # Skill Importance in High-Wage vs Low-Wage Jobs
+
+    # Skill Importance in High-Wage vs Low-Wage Jobs
     html.Div([
         dbc.Row(
         [
@@ -184,76 +228,62 @@ app.layout = html.Div([
     )
 ]),
 
-    html.Div(style={'height': '35px'}),
-
-    #Section for Factors Affecting Occupational Utilization**
+    # DANIAL COL
+    html.Div(style={'height': '200px'}),
     html.Div([
-        html.H1("Factors Affecting Occupational Utilization", style={'textAlign': 'center', 'margin-top': '50px'}),
-        
-        # Dropdown for Occupation Selection
+        # Section for Factors Affecting Occupational Utilization**
         html.Div([
-            html.Label("Select Occupation"),
-            dcc.Dropdown(
-                id='occupation-title-selector',
-                options=[{'label': title, 'value': title} for title in 
-                        dataframes["occupation_112_2333"]["2023 National Employment Matrix occupation title"].unique()],
-                value=None,
-                placeholder="Select an Occupation"
-            )
-        ], style={'width': '50%', 'margin': 'auto', 'padding': '10px'}),
+            html.H1("Factors Affecting Occupational Utilization", style={'textAlign': 'center', 'margin-top': '50px'}),
 
-        # Dropdown for Industry Selection
+            # Dropdown for Occupation Selection
+            html.Div([
+                html.Label("Select Occupation"),
+                dcc.Dropdown(
+                    id='occupation-title-selector',
+                    options=[{'label': title, 'value': title} for title in
+                             dataframes["occupation_112_2333"][
+                                 "2023 National Employment Matrix occupation title"].unique()],
+                    value=None,
+                    placeholder="Select an Occupation"
+                )
+            ], style={'width': '50%', 'margin': 'auto', 'padding': '10px'}),
+
+            # Dropdown for Industry Selection
+            html.Div([
+                html.Label("Select Industry"),
+                dcc.Dropdown(
+                    id='industry-title-selector',
+                    options=[],
+                    value=None,
+                    placeholder="Select an Industry"
+                )
+            ], style={'width': '50%', 'margin': 'auto', 'padding': '10px'}),
+
+            # Display Area for Factors
+            html.Div(id='factors-display',
+                     style={'width': '80%', 'margin': 'auto', 'padding': '20px', 'textAlign': 'center',
+                            'fontSize': '16px'})
+        ]),
+        html.Div(style={'height': '75px'}),
+        # end of factors section
+
         html.Div([
-            html.Label("Select Industry"),
-            dcc.Dropdown(
-                id='industry-title-selector',
-                options=[],
-                value=None,
-                placeholder="Select an Industry"
-            )
-        ], style={'width': '50%', 'margin': 'auto', 'padding': '10px'}),
-
-        # Display Area for Factors
-        html.Div(id='factors-display', style={'width': '80%', 'margin': 'auto', 'padding': '20px', 'textAlign': 'center', 'fontSize': '16px'})
+            dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
+            dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
+        ]),
     ]),
-    html.Div(style={'height': '75px'}),
-    #end of factors section
 
+    # Employment Distribution Analysis
     html.Div([
-        dcc.Graph(figure=skill_importance, id='skill-importance', style={'width': '80%', 'margin': 'auto'}),
-        dcc.Markdown(children=graph2_md, style={'width': '80%', 'margin': 'auto'}),
+        html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
+        dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance-graph',
+                  style={'width': '80%', 'margin': 'auto'}),
     ]),
-    html.Div([
 
-    html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
-
-
-        dcc.Graph(figure=median_wage_by_degree_fig, id='skill-importance-graph', style={'width': '80%', 'margin': 'auto'}),
-
-
-    # Dropdown for Label selection
-    html.Div([
-        html.Label("Select Label"),
-        dcc.Dropdown(
-            id='label-selector',
-            options=[{'label': label, 'value': label} for label in labels],
-            value=labels[0]
-        )
-    ], style={'width': '30%', 'margin': 'auto', 'padding': '10px'}),
-
-    # Dropdown for Profession selection
-    html.Div([
-        html.Label("Select Profession"),
-        dcc.Dropdown(id='profession-selector', options=[], value=None)
-    ], style={'width': '60%', 'margin': 'auto', 'padding': '10px'}),
-
-    # Graph
-    dcc.Graph(id='employment-distribution-graph')
-    ]),
-    
-    html.Div(style={'height': '300px'}),
+    html.Div(style={'height': '200px'}),
     dom.create_dropdown_layout(pre_occup_df),
     dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df)
+
 
     #leave this at the bottom, add any sections above this
 ])
