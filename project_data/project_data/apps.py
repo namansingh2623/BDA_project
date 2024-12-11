@@ -363,7 +363,9 @@ app.layout = html.Div([
 
         dcc.Graph(id='skills-pie-chart')
     ])
-])
+],
+style={ 'margin': '10px','background-color': 'green'}
+)
 
 @app.callback(
     Output('profession-selector', 'options'),
