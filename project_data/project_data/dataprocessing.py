@@ -64,10 +64,11 @@ def process_and_clean_data():
     education_52_2333 = load_table_to_dataframe(file_path2, "Table 5.2", header_row=1, num_rows=9)
     education_53_2333 = load_table_to_dataframe(file_path2, "Table 5.3", header_row=1, num_rows=833)
     education_54_2333 = load_table_to_dataframe(file_path2, "Table 5.4", header_row=1, num_rows=832)
-    
-    
-    
+
+
+
     occupation_11_1929 = load_table_to_dataframe(file_path3, "Table 1.1", header_row=1, num_rows=23)
+    occupation_11_1929_2 = load_table_to_dataframe(file_path3, "Table 1.1", header_row=1, num_rows=23)
     occupation_12_1929 = load_table_to_dataframe(file_path3, "Table 1.2", header_row=1, num_rows=1048)
     occupation_13_1929 = load_table_to_dataframe(file_path3, "Table 1.3", header_row=1, num_rows=31)
     occupation_14_1929 = load_table_to_dataframe(file_path3, "Table 1.4", header_row=1, num_rows=31)
@@ -78,7 +79,7 @@ def process_and_clean_data():
     occupation_14_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.4', header_row=1, num_rows=31)
     occupation_15_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.5', header_row=1, num_rows=31)
     occupation_16_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.6', header_row=1, num_rows=31)
-
+    occupation_11_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.1', header_row=1,num_rows=23)
     #occupation_112_2333 below - Table 1.12 Factors affecting occupational utilization, projected 2023–33
     occupation_112_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.12', header_row=1, num_rows=1040)
     occupation_110_2333 = load_table_to_dataframe(file_path=file_path5, sheet_name='Table 1.10', header_row=1, num_rows=1013)
@@ -127,8 +128,8 @@ def process_and_clean_data():
     #occupation_112_2333 = occupation_112_2333[
     #occupation_112_2333["2023 National Employment Matrix industry title"] == "Total employment" ]
 
-
-
+    occupation_11_1929_2.drop(index=0, inplace=True)
+    occupation_11_2333.drop(index=0, inplace=True)
     
     occupation_11_1929.drop(index=0,inplace=True)
     occupation_12_1929.drop(index=0,inplace=True)
@@ -253,6 +254,8 @@ def process_and_clean_data():
         "occupation_15_16_2333":occupation_15_16_2333, 
         "occupation_112_2333":occupation_112_2333,
         "occupation_110_2333":occupation_110_2333,
+        "occupation_11_1929_2":occupation_11_1929_2,
+        "occupation_11_2333":occupation_11_2333,
         "title_labels_dict": title_labels_dict,
         "oesm_national_M2019_dl_19":national_M2019_dl,
         "oesm_national_M2023_dl_23":national_M2023_dl,

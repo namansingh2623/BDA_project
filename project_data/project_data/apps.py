@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dataprocessing as dp
 import ProjectFileGroup4 as pf
 import plotly.graph_objects as go
-
+import dropdown_wage as dom
 # Function to generate placeholder graph
 def placeholder_graph(message="Graph not found"):
     return go.Figure().add_annotation(
@@ -108,6 +108,10 @@ education_levels = pre_covid_df.columns[2:9]
 # Unique Title Labels
 labels = pre_covid_df['Title Labels'].unique().tolist()
 
+
+pre_occup_df = dataframes['occupation_11_1929']
+post_occup_df = dataframes['occupation_11_2333']
+
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
@@ -179,7 +183,8 @@ app.layout = html.Div([
         style={'margin-top': '30px'}
     )
 ]),
-html.Div(style={'height': '35px'}),
+
+    html.Div(style={'height': '35px'}),
 
     #Section for Factors Affecting Occupational Utilization**
     html.Div([
@@ -246,7 +251,11 @@ html.Div(style={'height': '35px'}),
     dcc.Graph(id='employment-distribution-graph')
     ]),
     
-    html.Div(style={'height': '300px'}) #leave this at the bottom, add any sections above this
+    html.Div(style={'height': '300px'}),
+    dom.create_dropdown_layout(pre_occup_df),
+    dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df)
+
+    #leave this at the bottom, add any sections above this
 ])
 
 @app.callback(
