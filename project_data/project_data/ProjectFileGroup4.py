@@ -740,3 +740,74 @@ def get_factors_and_employment_change(dataframes, occupation_title, industry_tit
 
     return result
 
+def inflation_adjusted_median_wage_comparison(dataframes, inflation_rate=1.2):
+    """
+    Generates a Plotly grouped bar chart comparing inflation-adjusted median annual wages (2019 vs 2023).
+
+    Parameters:
+    - dataframes: Dictionary containing the processed dataframes.
+    - inflation_rate: Adjustment rate to account for inflation between 2019 and 2023.
+
+    Returns:
+    - fig: Plotly figure object.
+    """
+    pre_occup_df = dataframes['occupation_11_1929']
+    post_occup_df = dataframes['occupation_11_2333']
+
+    # Normalize column names for consistency
+    pre_occup_df["2019 National Employment Matrix title"] = pre_occup_df["2019 National Employment Matrix title"].str.strip().str.lower()
+    post_occup_df["2023 National Employment Matrix title"] = post_occup_df["2023 National Employment Matrix title"].str.strip().str.lower()
+
+    # Merge dataframes on occupation title
+    merged_df = pd.merge(
+        pre_occup_df[["2019 National Employment Matrix title", "Median annual wage, 2020(1)"]].rename(columns={"Median annual wage, 2020(1)": "2019 Median Wage"}),
+        post_occup_df[["2023 National Employment Matrix title", "Median annual wage, dollars, 2023[1]"]].rename(columns={"Median annual wage, dollars, 2023[1]": "2023 Median Wage"}),
+        left_on="2019 National Employment Matrix title",
+        right_on="2023 National Employment Matrix title",
+        how="inner"
+    )
+
+    # Adjust 2019 wages for inflation
+    merged_df["2019 Median Wage (Inflation-Adjusted)"] = merged_df["2019 Median Wage"] * inflation_rate
+
+    # Extract data for the plot
+    occupations = merged_df["2019 National Employment Matrix title"].str.title()
+    wages_2019_adjusted = merged_df["2019 Median Wage (Inflation-Adjusted)"]
+    wages_2023 = merged_df["2023 Median Wage"]
+
+    # Create a grouped bar chart using Plotly
+    fig = go.Figure()
+
+    # Add bars for 2019 (adjusted)
+    fig.add_trace(
+        go.Bar(
+            x=occupations,
+            y=wages_2019_adjusted,
+            name="2019 Median Wage (2023 $)",
+            marker=dict(color="skyblue", line=dict(color="black", width=1))
+        )
+    )
+
+    # Add bars for 2023
+    fig.add_trace(
+        go.Bar(
+            x=occupations,
+            y=wages_2023,
+            name="2023 Median Wage",
+            marker=dict(color="lightcoral", line=dict(color="black", width=1))
+        )
+    )
+
+    # Update layout
+    fig.update_layout(
+        title="Comparison of Inflation-Adjusted Median Annual Wages (2019 vs 2023)",
+        xaxis_title="Occupations",
+        yaxis_title="Median Annual Wage (Inflation-Adjusted $)",
+        barmode="group",  # Group bars side by side
+        xaxis=dict(tickangle=45, tickfont=dict(size=10)),
+        yaxis=dict(tickfont=dict(size=12)),
+        legend_title="Year",
+        template="plotly_white"
+    )
+
+    return fig

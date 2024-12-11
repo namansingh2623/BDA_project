@@ -68,6 +68,11 @@ try:
 except Exception as e:
     median_wage_by_degree_fig = placeholder_graph("median_wage_by_degree_fig Graph Not Found")
     print(f"Error generating median_wage_by_degree_fig graph: {e}")
+try:
+    inflation_adjusted_median_wage_comparison_fig = pf.inflation_adjusted_median_wage_comparison(dataframes, inflation_rate=1.2)
+except Exception as e:
+    inflation_adjusted_median_wage_comparison_fig = placeholder_graph("inflation_adjusted_median_wage_comparison graph nopt found")
+    print(f"Error generating inflation_adjusted_median_wage_comparison graph: {e}")
 
 # Intro and markdown texts
 intro_md = '''
@@ -120,6 +125,17 @@ graph2_md = '''
 - Low-wage jobs focus on **customer service** and **manual skills**.
 - Core skills like adaptability and problem-solving are essential for all jobs.
 '''
+
+graph3_md = '''
+
+ehhyjhewj
+'''
+graph4_md ='''
+hbdhbjhbchbc
+
+'''
+
+
 pre_covid_df = dataframes['education_53_1929']
 post_covid_df = dataframes['education_53_2333']
 
@@ -282,7 +298,12 @@ app.layout = html.Div([
 
     html.Div(style={'height': '200px'}),
     dom.create_dropdown_layout(pre_occup_df),
-    dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df)
+    dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df),
+    
+    html.Div([
+        dcc.Graph(figure=inflation_adjusted_median_wage_comparison_fig, id='inflation_adjusted_median_wage_comparison', style={'width': '80%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph4_md, style={'width': '80%', 'margin': 'auto'})
+    ])
 
 
     #leave this at the bottom, add any sections above this
