@@ -158,6 +158,18 @@ labels = pre_covid_df['Title Labels'].unique().tolist()
 pre_occup_df = dataframes['occupation_11_1929']
 post_occup_df = dataframes['occupation_11_2333']
 
+
+df = dataframes["skills_64_2333"]
+education_levels = df['Typical education needed for entry'].unique()
+skills_columns = df.columns[1:]
+
+df_2 = dataframes["skills_62_2333"]
+unique_titles = df_2['Title Labels'].unique()
+unique_labels_dict = {
+    title: df_2[df_2['Title Labels'] == title]['2023 National Employment Matrix title'].unique()
+    for title in unique_titles
+}
+
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
@@ -315,9 +327,42 @@ app.layout = html.Div([
     html.Div([
         dcc.Graph(figure=inflation_adjusted_median_wage_comparison_fig, id='inflation_adjusted_median_wage_comparison', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph4_md, style={'width': '80%', 'margin': 'auto'})
-    ])
+    ]),
 
+    #MALAV GRAPHS
+    html.Div([
+    html.H1("Education Skills Distribution Pie Chart"),
+    html.Label("Select Education Level:"),
+    dcc.Dropdown(
+        id='education-dropdown-malav',
+        options=[{'label': level, 'value': level} for level in education_levels],
+        value=education_levels[0]
+    ),
+    dcc.Graph(id='education-skills-pie-chart')
+    ]),
     #leave this at the bottom, add any sections above this
+
+
+    # MALAV GRAPH 2
+    html.Div([
+        html.Div([
+            html.Label("Select Title Category:"),
+            dcc.Dropdown(
+                id='title-dropdown',
+                options=[{'label': title, 'value': title} for title in unique_titles],
+                value=unique_titles[0]
+            )
+        ]),
+
+        html.Div([
+            html.Label("Select Specific Title:"),
+            dcc.Dropdown(
+                id='label-dropdown'
+            )
+        ]),
+
+        dcc.Graph(id='skills-pie-chart')
+    ])
 ])
 
 @app.callback(
@@ -444,6 +489,69 @@ def display_factors_and_employment_change(selected_occupation, selected_industry
     ])
 
 
+@app.callback(
+    Output('education-skills-pie-chart', 'figure'),
+    Input('education-dropdown-malav', 'value')
+)
+def update_pie_chart(selected_education):
+    filtered_df = df[df['Typical education needed for entry'] == selected_education]
+    values = filtered_df[skills_columns].iloc[0]
+    fig = go.Figure(
+        go.Pie(
+            labels=skills_columns,
+            values=values,
+            name=f'{selected_education}',
+            hovertemplate="<b>%{label}</b><br>Importance: %{value}<extra></extra>"
+        )
+    )
+    fig.update_layout(
+        title=f"Skills Distribution for {selected_education}",
+        margin=dict(t=50, b=50, l=50, r=50),
+        showlegend=True
+    )
+    return fig
+
+def skills_pie_chart2(dataframes, title_label, matrix_title):
+    df_2 = dataframes["skills_62_2333"]
+    skills_columns = df_2.columns[8:25]
+
+    filtered_df_2 = df_2[(df_2['Title Labels'] == title_label) &
+                     (df_2['2023 National Employment Matrix title'] == matrix_title)]
+
+    values = filtered_df_2[skills_columns].iloc[0]
+
+    fig = go.Figure(
+        go.Pie(
+            labels=skills_columns,
+            values=values,
+            name=f'{title_label} - {matrix_title}',
+            hovertemplate="<b>%{label}</b><br>Value: %{value}<br><extra></extra>"
+        )
+    )
+
+    fig.update_layout(
+        title=f"Skills Distribution for {title_label} - {matrix_title}",
+        margin=dict(t=150, b=50, l=50, r=50),
+        height=700
+    )
+
+    return fig
+@app.callback(
+    Output('label-dropdown', 'options'),
+    Output('label-dropdown', 'value'),
+    Input('title-dropdown', 'value')
+)
+def update_labels(title):
+    labels = unique_labels_dict[title]
+    return [{'label': label, 'value': label} for label in labels], labels[0]
+
+@app.callback(
+    Output('skills-pie-chart', 'figure'),
+    Input('title-dropdown', 'value'),
+    Input('label-dropdown', 'value')
+)
+def update_chart(title, label):
+    return skills_pie_chart2(dataframes, title, label)
 
 if __name__ == '__main__':
     app.run(debug=True)
