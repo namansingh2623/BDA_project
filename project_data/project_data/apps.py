@@ -127,11 +127,20 @@ graph2_md = '''
 '''
 
 graph3_md = '''
-
-ehhyjhewj
+Insights: 
+- We are able to analyze patterns across professions
+- Finding that "Bachelor's degree" and "Master's degree" having strong correlation might suggest a profession group that values higher education
+- Business and Financial Operations Occupations, Healthcare Practitioners and Technical Occupations, and Computer and Mathematical Occupations have 2023 wages that are roughly equal to inflation-adjusted 2019 wages.
+- Educational Instruction and Library Occupations, Personal Care and Service Occupations, and Food Preparation and Serving Related Occupations have 2023 wages below their inflation-adjusted 2019 counterparts.
 '''
 graph4_md ='''
-hbdhbjhbchbc
+Insights:
+
+- Legal Occupations and Management Occupations exhibit higher 2023 wages than inflation-adjusted 2019 wages, reflecting their resilience and high demand in the labor market.
+Educational Instruction and Library Occupations, Personal Care and Service Occupations, and Food Preparation and Serving Occupations show 2023 wages below inflation-adjusted 2019 levels
+- Food Preparation, Building and Grounds Cleaning, and Personal Care occupations face the greatest economic pressure, with wages struggling to keep up with inflation.
+- STEM fields (e.g., Computer, Mathematical, and Engineering Occupations) maintain stable wages in real terms, underscoring their resilience and continuous demand.
+- Healthcare Occupations: A Mixed Picture: Healthcare Practitioners fare better with stable real wages, while Healthcare Support Occupations lag behind, showing disparities within the same sector.
 
 '''
 
@@ -164,6 +173,7 @@ app.layout = html.Div([
 
         html.H1(children='Heatmap of Education Level', style={'textAlign': 'center'}),
         dcc.Graph(figure=correlation_heatmap, id='correlation-heatmap', style={'width': '60%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph3_md, style={'width': '80%'}),
     ]),
     html.Div([
         html.H2("Lets see what Degree does most Employees ", style={'textAlign': 'center','margin-top':'70px'}),
@@ -297,9 +307,12 @@ app.layout = html.Div([
     ]),
 
     html.Div(style={'height': '200px'}),
+    
+    
     dom.create_dropdown_layout(pre_occup_df),
     dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df),
     
+    #Inflation adjusted median annual wage comparison
     html.Div([
         dcc.Graph(figure=inflation_adjusted_median_wage_comparison_fig, id='inflation_adjusted_median_wage_comparison', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph4_md, style={'width': '80%', 'margin': 'auto'})
