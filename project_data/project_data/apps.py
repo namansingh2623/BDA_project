@@ -130,17 +130,17 @@ graph3_md = '''
 Insights: 
 - We are able to analyze patterns across professions
 - Finding that "Bachelor's degree" and "Master's degree" having strong correlation might suggest a profession group that values higher education
-- Business and Financial Operations Occupations, Healthcare Practitioners and Technical Occupations, and Computer and Mathematical Occupations have 2023 wages that are roughly equal to inflation-adjusted 2019 wages.
-- Educational Instruction and Library Occupations, Personal Care and Service Occupations, and Food Preparation and Serving Related Occupations have 2023 wages below their inflation-adjusted 2019 counterparts.
 '''
+
 graph4_md ='''
 Insights:
 
-- Legal Occupations and Management Occupations exhibit higher 2023 wages than inflation-adjusted 2019 wages, reflecting their resilience and high demand in the labor market.
-Educational Instruction and Library Occupations, Personal Care and Service Occupations, and Food Preparation and Serving Occupations show 2023 wages below inflation-adjusted 2019 levels
-- Food Preparation, Building and Grounds Cleaning, and Personal Care occupations face the greatest economic pressure, with wages struggling to keep up with inflation.
-- STEM fields (e.g., Computer, Mathematical, and Engineering Occupations) maintain stable wages in real terms, underscoring their resilience and continuous demand.
-- Healthcare Occupations: A Mixed Picture: Healthcare Practitioners fare better with stable real wages, while Healthcare Support Occupations lag behind, showing disparities within the same sector.
+- Real wages decreased from 2019 to 2023 overall.
+- Management and professional roles saw notable declines.
+- Education and healthcare service wages dropped, while healthcare support stayed stable
+- Food preparation and service roles showed slight wage increases
+- Wages in 2023 are not keeping pace with inflation, reducing purchasing power
+
 
 '''
 
@@ -311,6 +311,7 @@ app.layout = html.Div([
         ]),
     ]),
 
+
     # Employment Distribution Analysis
     html.Div([
         html.H1("Employment Distribution Analysis", style={'textAlign': 'center'}),
@@ -318,30 +319,18 @@ app.layout = html.Div([
                   style={'width': '80%', 'margin': 'auto'}),
     ]),
 
-    html.Div(style={'height': '200px'}),
-    
-    dom.create_dropdown_layout(pre_occup_df),
-    dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df),
-    
-    #Inflation adjusted median annual wage comparison
+    # MALAV GRAPHS
     html.Div([
-        dcc.Graph(figure=inflation_adjusted_median_wage_comparison_fig, id='inflation_adjusted_median_wage_comparison', style={'width': '80%', 'margin': 'auto'}),
-        dcc.Markdown(children=graph4_md, style={'width': '80%', 'margin': 'auto'})
+        html.H1("Education Skills Distribution Pie Chart"),
+        html.Label("Select Education Level:"),
+        dcc.Dropdown(
+            id='education-dropdown-malav',
+            options=[{'label': level, 'value': level} for level in education_levels],
+            value=education_levels[0]
+        ),
+        dcc.Graph(id='education-skills-pie-chart')
     ]),
-
-    #MALAV GRAPHS
-    html.Div([
-    html.H1("Education Skills Distribution Pie Chart"),
-    html.Label("Select Education Level:"),
-    dcc.Dropdown(
-        id='education-dropdown-malav',
-        options=[{'label': level, 'value': level} for level in education_levels],
-        value=education_levels[0]
-    ),
-    dcc.Graph(id='education-skills-pie-chart')
-    ]),
-    #leave this at the bottom, add any sections above this
-
+    # leave this at the bottom, add any sections above this
 
     # MALAV GRAPH 2
     html.Div([
@@ -362,7 +351,20 @@ app.layout = html.Div([
         ]),
 
         dcc.Graph(id='skills-pie-chart')
-    ])
+    ]),
+
+    html.Div(style={'height': '200px'}),
+    
+    dom.create_dropdown_layout(pre_occup_df),
+    dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df),
+    
+    #Inflation adjusted median annual wage comparison
+    html.Div([
+        dcc.Graph(figure=inflation_adjusted_median_wage_comparison_fig, id='inflation_adjusted_median_wage_comparison', style={'width': '80%', 'margin': 'auto'}),
+        dcc.Markdown(children=graph4_md, style={'width': '80%', 'margin': 'auto'})
+    ]),
+
+
 ],
 style={ 'margin': '10px'}
 )
