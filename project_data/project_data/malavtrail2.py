@@ -11,19 +11,18 @@ import plotly.graph_objects as go
 
 dataframes = dp.process_and_clean_data()
 
-df = dataframes["skills_62_2333"]
+df_2 = dataframes["skills_62_2333"]
 
-dataframes = {"skills_62_2333": df}
 
 def skills_pie_chart2(dataframes, title_label, matrix_title):
-    df = dataframes["skills_62_2333"]
-    skills_columns = df.columns[8:25]
+    df_2 = dataframes["skills_62_2333"]
+    skills_columns = df_2.columns[8:25]
 
-    filtered_df = df[(df['Title Labels'] == title_label) &
-                     (df['2023 National Employment Matrix title'] == matrix_title)]
+    filtered_df_2 = df_2[(df_2['Title Labels'] == title_label) &
+                     (df_2['2023 National Employment Matrix title'] == matrix_title)]
 
-    values = filtered_df[skills_columns].iloc[0]
-    
+    values = filtered_df_2[skills_columns].iloc[0]
+
     fig = go.Figure(
         go.Pie(
             labels=skills_columns,
@@ -43,9 +42,9 @@ def skills_pie_chart2(dataframes, title_label, matrix_title):
 
 app = dash.Dash(__name__)
 
-unique_titles = df['Title Labels'].unique()
+unique_titles = df_2['Title Labels'].unique()
 unique_labels_dict = {
-    title: df[df['Title Labels'] == title]['2023 National Employment Matrix title'].unique() 
+    title: df_2[df_2['Title Labels'] == title]['2023 National Employment Matrix title'].unique()
     for title in unique_titles
 }
 
