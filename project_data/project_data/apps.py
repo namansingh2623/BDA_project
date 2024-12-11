@@ -308,7 +308,6 @@ app.layout = html.Div([
 
     html.Div(style={'height': '200px'}),
     
-    
     dom.create_dropdown_layout(pre_occup_df),
     dom.register_dropdown_callbacks(app, pre_occup_df, post_occup_df),
     
@@ -317,7 +316,6 @@ app.layout = html.Div([
         dcc.Graph(figure=inflation_adjusted_median_wage_comparison_fig, id='inflation_adjusted_median_wage_comparison', style={'width': '80%', 'margin': 'auto'}),
         dcc.Markdown(children=graph4_md, style={'width': '80%', 'margin': 'auto'})
     ])
-
 
     #leave this at the bottom, add any sections above this
 ])
@@ -333,6 +331,10 @@ def update_profession_selector(selected_label):
     options = [{'label': prof, 'value': prof} for prof in professions]
     value = professions[0] if professions else None
     return options, value
+
+
+
+
 
 
 # Callback to update the graph based on selected label and profession
@@ -394,6 +396,12 @@ def update_graph(selected_label, selected_profession):
 
     return fig
 # Callback to update industries based on selected occupation
+
+
+
+
+
+
 @app.callback(
     Output('industry-title-selector', 'options'),
     Output('industry-title-selector', 'value'),
@@ -409,6 +417,10 @@ def update_industry_selector(selected_occupation):
     industries = filtered_df["2023 National Employment Matrix industry title"].unique()
     options = [{'label': industry, 'value': industry} for industry in industries]
     return options, None
+
+
+
+
 # Callback to display factors affecting occupational utilization
 @app.callback(
     Output('factors-display', 'children'),
