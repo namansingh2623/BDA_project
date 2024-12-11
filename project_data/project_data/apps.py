@@ -119,7 +119,8 @@ graph1_md = '''
 
 graph2_md = '''
 # Skill Importance in High-Wage vs Low-Wage Jobs
-
+- High wage defined as over $90,000 median annual wage
+- Low wage jobs defined as under $60,000 median annual wage
 ### Insights:
 - High-wage jobs prioritize **STEM skills** and **critical thinking**.
 - Low-wage jobs focus on **customer service** and **manual skills**.
