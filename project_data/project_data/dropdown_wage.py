@@ -36,6 +36,11 @@ def register_dropdown_callbacks(app, pre_occup_df, post_occup_df):
     """
     Registers callbacks for the dropdown and bar graph.
     """
+    # Apply inflation factor to the 2019 wages
+    inflation_factor = 1.2
+    pre_occup_df["Inflation-Adjusted 2019 Wage"] = pre_occup_df["Median annual wage, 2020(1)"] * inflation_factor
+    
+    
     @app.callback(
         Output('median-wage-graph', 'figure'),
         Input('occupation-selector', 'value')
@@ -53,7 +58,7 @@ def register_dropdown_callbacks(app, pre_occup_df, post_occup_df):
         # print("Filtered 2023 Data:", filtered_post_occup)
 
         
-        wage_2019 = pre_occup_df[pre_occup_df["2019 National Employment Matrix title"] == selected_occupation]["Median annual wage, 2020(1)"].values
+        wage_2019 = pre_occup_df[pre_occup_df["2019 National Employment Matrix title"] == selected_occupation]["Inflation-Adjusted 2019 Wage"].values
         wage_2023 = post_occup_df[post_occup_df["2023 National Employment Matrix title"] == selected_occupation]["Median annual wage, dollars, 2023[1]"].values
         
         # print("Wage 2019:", wage_2019)
