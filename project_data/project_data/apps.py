@@ -558,5 +558,8 @@ def update_labels(title):
 def update_chart(title, label):
     return skills_pie_chart2(dataframes, title, label)
 
+import os
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8052))
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
