@@ -4,7 +4,6 @@ import dataprocessing as dp
 import ProjectFileGroup4 as pf
 import plotly.graph_objects as go
 import dropdown_wage as dom
-server = app.server
 # Function to generate placeholder graph
 def placeholder_graph(message="Graph not found"):
     return go.Figure().add_annotation(
@@ -173,7 +172,7 @@ unique_labels_dict = {
 }
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-server = app.server
+
 
 
 
@@ -562,4 +561,6 @@ def update_chart(title, label):
 import os
 
 if __name__ == '__main__':
+    # port = int(os.environ.get("PORT", 8052))
+    # app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
     app.run(host='0.0.0.0', debug=False, use_reloader=False)
