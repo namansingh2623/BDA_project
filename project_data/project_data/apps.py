@@ -171,9 +171,14 @@ unique_labels_dict = {
     for title in unique_titles
 }
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+# app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+# server = app.server
+app = Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    requests_pathname_prefix="/seculink/"
+)
 server = app.server
-
 
 
 app.layout = html.Div([
