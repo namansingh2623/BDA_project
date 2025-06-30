@@ -176,7 +176,7 @@ unique_labels_dict = {
 app = Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    requests_pathname_prefix="/seculink/"
+    requests_pathname_prefix="/carrerlens/"
 )
 server = app.server
 
